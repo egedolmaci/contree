@@ -6,7 +6,7 @@ from glob import glob
 # Define package metadata
 package_name = 'pycontree'
 extension_name = 'ccontree'
-__version__ = "1.0"
+__version__ = "1.0.4"
 
 ext_modules = [
     Pybind11Extension(package_name + '.' + extension_name,
@@ -23,5 +23,7 @@ setup(
     version=__version__,
     ext_modules=ext_modules,
     dev_requires=[],
-    install_requires=['pandas', 'numpy']
+    install_requires=['pandas', 'numpy'],
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown'
 )

@@ -1,16 +1,16 @@
 [build-system]
 requires = [
-    "setuptools>=42",
+    "setuptools>=42, <72.2.0",
     "pybind11>=2.12.0"
 ]
 build-backend = "setuptools.build_meta"
-target-version = "py38"
 
 [project]
 name = "pycontree"
-version = "1.0"
+version = "1.0.4"
 description = "Python Wrapper ConTree: Optimal Decision Trees for Continuous Feature Data"
 license=  {file = "LICENSE"}
+readme = "README.md"
 authors = [
     {name = "Cătălin E. Briţa", email="C.E.Brita@student.tudelft.nl"},
     {name = "Jacobus G. M. van der Linden", email="J.G.M.vanderLinden@tudelft.nl"},
@@ -32,13 +32,8 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent", ]
 
-[project.optional-dependencies]
-dev = []
+[tool.setuptools.packages.find]
+exclude = ["datasets*", "train-datasets*", "examples*"]
 
-[tool.pytest.ini_options]
-pythonpath = [
-  "."
-]
-
-[tool.setuptools.packages]
-find = {}  # Scanning implicit namespaces is active by default
+[project.urls]
+Repository = "https://github.com/consol-lab/contree"

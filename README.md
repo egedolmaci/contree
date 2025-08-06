@@ -12,6 +12,13 @@ If you use ConTree, please cite our paper:
 
 ## Python usage
 
+### Install from PyPi
+The `pycontree` python package can be installed from PyPi using `pip`:
+
+```sh
+pip install pycontree
+```
+
 ### Install from source using pip
 The `pycontree` python package can be installed from source as follows:
 

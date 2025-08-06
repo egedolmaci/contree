@@ -10,15 +10,19 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstring>
+#include <climits>
 
 struct dynamic_bitset {
 	using base_type = unsigned long;
+	static constexpr size_t BITS_PER_ELEMENT = sizeof(base_type) * CHAR_BIT;
+	static constexpr size_t BYTES_PER_ELEMENT = sizeof(base_type);
 
 	base_type* bitset;
 	size_t elements;
 
 	dynamic_bitset(size_t size) {
-		elements = (size - 1) / sizeof(base_type) + 1;
+		RUNTIME_ASSERT(size > 0, "Cannot create an empty bitset");
+		elements = (size - 1) / BITS_PER_ELEMENT + 1;
 		bitset = new base_type[elements];
 		std::fill(bitset, bitset + elements, 0);
 	}
@@ -31,7 +35,7 @@ struct dynamic_bitset {
 
 	dynamic_bitset(const dynamic_bitset& other) : elements(other.elements) {
 		bitset = new base_type[elements];
-		std::memcpy(bitset, other.bitset, elements * sizeof(base_type));
+		std::memcpy(bitset, other.bitset, elements * BYTES_PER_ELEMENT);
 	}
 
 	dynamic_bitset& operator=(const dynamic_bitset& other) {
@@ -40,7 +44,7 @@ struct dynamic_bitset {
 
 		elements = other.elements;
 		base_type* new_bitset = new base_type[elements];
-		std::memcpy(new_bitset, other.bitset, elements * sizeof(base_type));
+		std::memcpy(new_bitset, other.bitset, elements * BYTES_PER_ELEMENT);
 		delete[] bitset;
 		bitset = new_bitset;
 		return *this;
@@ -58,20 +62,23 @@ struct dynamic_bitset {
 	}
 
 	void set_bit(size_t index) {
-		size_t element = index / sizeof(base_type);
-		size_t bit_index = index % sizeof(base_type);
+		size_t element = index / BITS_PER_ELEMENT;
+		RUNTIME_ASSERT(element <= elements, "set_bit - Writing beyond the bitset size: byte index " << element << ", while max is " << elements);
+		size_t bit_index = index % BITS_PER_ELEMENT;
 		bitset[element] |= 1UL << bit_index;
 	}
 
 	void clear_bit(size_t index) {
-		size_t element = index / sizeof(base_type);
-		size_t bit_index = index % sizeof(base_type);
+		size_t element = index / BITS_PER_ELEMENT;
+		RUNTIME_ASSERT(element <= elements, "clear_bit - Writing beyond the bitset size: byte index " << element << ", while max is " << elements);
+		size_t bit_index = index % BITS_PER_ELEMENT;
 		bitset[element] &= 1UL << bit_index;
 	}
 
 	void toggle_bit(size_t index) {
-		size_t element = index / sizeof(base_type);
-		size_t bit_index = index % sizeof(base_type);
+		size_t element = index / BITS_PER_ELEMENT;
+		RUNTIME_ASSERT(element <= elements, "toggle_bit - Writing beyond the bitset size: byte index " << element << ", while max is " << elements);
+		size_t bit_index = index % BITS_PER_ELEMENT;
 		bitset[element] ^= 1UL << bit_index;
 	}
 
