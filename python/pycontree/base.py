@@ -1,6 +1,6 @@
 from .ccontree import Config, solve, Tree
 from sklearn.base import BaseEstimator
-from sklearn.utils.validation import check_array, check_is_fitted
+from sklearn.utils.validation import check_array, check_is_fitted, validate_data
 from sklearn.utils._param_validation import Interval, StrOptions
 from sklearn.metrics import accuracy_score
 from pycontree.export import TreeExporter
@@ -56,7 +56,7 @@ class ConTree (BaseEstimator):
         """
         with warnings.catch_warnings():
             warnings.filterwarnings(action="ignore", category=FutureWarning)
-            X = self._validate_data(X, ensure_min_samples=2, dtype=np.float64)
+            X = validate_data(self, X, ensure_min_samples=2, dtype=np.float64)
             
             y = check_array(y, ensure_2d=False, dtype=np.intc)
             self.n_classes_ = len(np.unique(y))
@@ -70,7 +70,7 @@ class ConTree (BaseEstimator):
         """
         with warnings.catch_warnings():
             warnings.filterwarnings(action="ignore", category=FutureWarning)
-            X = self._validate_data(X, reset=False, dtype=np.float64)
+            X = validate_data(self, X, reset=False, dtype=np.float64)
             
             
             y = check_array(y, ensure_2d=False, dtype=np.intc)
@@ -84,7 +84,7 @@ class ConTree (BaseEstimator):
         """
         with warnings.catch_warnings():
             warnings.filterwarnings(action="ignore", category=FutureWarning)
-            return self._validate_data(X, reset=False, dtype=np.float64)
+            return validate_data(self, X, reset=False, dtype=np.float64)
 
     def fit(self, X, y) -> Self:
         """
@@ -135,6 +135,48 @@ class ConTree (BaseEstimator):
         X = self._process_predict_data(X)
    
         return self.tree_.predict(X)
+
+    def predict_proba(self, X):
+        """
+        Predicts the probabilities of the target class for the given input feature data.
+
+        Args:
+            X : array-like, shape = (n_samples, n_features)
+            Data matrix
+
+        Returns:
+            numpy.ndarray: A 2D array that represents the predicted class probabilities of the test data.
+                The i-j-th element in this array corresponds to the predicted class probablity for the j-th class of the i-th instance in `X`.
+        """
+        check_is_fitted(self, "tree_")
+        X = self._process_predict_data(X)
+        probabilities = np.zeros((len(X), self.n_classes_))
+        train_data = (self.train_X_, self.train_y_)
+        self._recursive_predict_proba(self.tree_, probabilities, np.array(range(0, len(X))), X, train_data)
+        # Check that all rows sum to proability 1 (account for floating errors)
+        assert (probabilities.sum(axis=1).min() >= 1-1e-4)
+        return probabilities
+    
+    def _recursive_predict_proba(self, tree, probabilities, indices, X, train_data):
+        train_X = train_data[0]
+        train_y = train_data[1]
+        if tree.is_leaf_node():
+            n = len(train_y)
+            assert(n > 0)
+            all_counts = np.zeros(self.n_classes_)
+            unique, counts = np.unique(train_y, return_counts=True)
+            for label, count in zip(unique, counts):
+                all_counts[label] = count
+            probs = all_counts / n
+            probabilities[indices] = probs
+        else:
+            indices_left  = np.intersect1d(np.argwhere( (X[:, tree.get_split_feature()] <= tree.get_split_threshold())), indices)
+            indices_right = np.intersect1d(np.argwhere(~(X[:, tree.get_split_feature()] <= tree.get_split_threshold())), indices)
+            sel = train_X[:, tree.get_split_feature()] <= tree.get_split_threshold()
+            train_data_left  = (train_X[ sel, :], train_y[ sel])
+            train_data_right = (train_X[~sel, :], train_y[~sel])
+            self._recursive_predict_proba(tree.get_left(),  probabilities, indices_left,  X, train_data_left)
+            self._recursive_predict_proba(tree.get_right(), probabilities, indices_right, X, train_data_right)
 
     def score(self, X, y_true) -> float:
         """
