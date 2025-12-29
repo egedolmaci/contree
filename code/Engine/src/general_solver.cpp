@@ -5,12 +5,6 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
         return;
     }
 
-    if (Cache::global_cache.is_cached(dataview, solution_configuration.max_depth)) {
-        current_optimal_decision_tree = Cache::global_cache.retrieve(dataview, solution_configuration.max_depth);
-        statistics::total_number_cache_hits += 1;
-        return;
-    }
-
     calculate_leaf_node(dataview.get_class_number(), dataview.get_dataset_size(), dataview.get_label_frequency(), current_optimal_decision_tree);
 
     if (solution_configuration.max_depth == 0) {
@@ -34,10 +28,6 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
             return;
         }
         if (!solution_configuration.stopwatch.IsWithinTimeLimit()) return;
-    }
-
-    if (current_optimal_decision_tree->misclassification_score <= upper_bound) {
-        Cache::global_cache.store(dataview, solution_configuration.max_depth, current_optimal_decision_tree);
     }
 }
 

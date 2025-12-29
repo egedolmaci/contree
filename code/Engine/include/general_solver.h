@@ -6,7 +6,6 @@
 #include <queue>
 #include <vector>
 
-#include "cache.h"
 #include "dataset.h"
 #include "dataview.h"
 #include "general_solver.h"

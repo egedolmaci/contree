@@ -3,7 +3,6 @@
 #include <iomanip>
 #include <iostream>
 
-#include "cache.h"
 #include "configuration.h"
 #include "dataset.h"
 #include "dataview.h"
@@ -36,7 +35,6 @@ void create_optimal_decision_tree(std::string file_name, int run_number, Configu
         optimal_decision_tree = std::make_shared<Tree>();
         int max_gap = config.max_gap;
         do {
-            Cache::global_cache = Cache(config.max_depth, unsorted_dataset.get_instance_number());
             config.is_root = true;
             GeneralSolver::create_optimal_decision_tree(dataview, config, optimal_decision_tree, INT_MAX);
 
