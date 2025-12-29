@@ -1,8 +1,7 @@
 [![CMake build](https://github.com/ConSol-Lab/contree/actions/workflows/cmake.yml/badge.svg)](https://github.com/ConSol-Lab/contree/actions/workflows/cmake.yml)
-[![Pip install](https://github.com/ConSol-Lab/contree/actions/workflows/pip.yml/badge.svg)](https://github.com/ConSol-Lab/contree/actions/workflows/pip.yml)
 
 # ConTree: Optimal Classification Trees for Continuous Feature Data
-Cătălin E. Briţa, Jacobus G. M. van der Linden [(e-mail)](mailto:J.G.M.vanderLinden@tudelft.nl), Emir Demirović - 
+Cătălin E. Briţa, Jacobus G. M. van der Linden [(e-mail)](mailto:J.G.M.vanderLinden@tudelft.nl), Emir Demirović -
 Delft University of Technology
 
 ConTree computes optimal binary classification trees on datasets with continuous features using dynamic programming with branch-and-bound.
@@ -10,56 +9,7 @@ ConTree computes optimal binary classification trees on datasets with continuous
 If you use ConTree, please cite our paper:
 * Briţa, Cătălin E., Jacobus G. M. van der Linden, and Emir Demirović. "Optimal Classification Trees for Continuous Feature Data Using Dynamic Programming with Branch-and-Bound." In _Proceedings of AAAI-25_ (2025). [pdf](https://arxiv.org/pdf/2501.07903)
 
-## Python usage
-
-### Install from PyPi
-The `pycontree` python package can be installed from PyPi using `pip`:
-
-```sh
-pip install pycontree
-```
-
-### Install from source using pip
-The `pycontree` python package can be installed from source as follows:
-
-```sh
-git clone https://github.com/ConSol-Lab/contree.git
-cd contree
-pip install . 
-```
-
-### Example usage
-`pycontree` can be used, for example, as follows:
-
-```python
-from pycontree import ConTree
-import pandas as pd
-from sklearn.metrics import accuracy_score
-
-df = pd.read_csv("datasets/bank.txt", sep=" ", header=None)
-
-X = df[df.columns[1:]]
-y = df[0]
-
-contree = ConTree(max_depth=3)
-contree.fit(X, y)
-
-ypred = contree.predict(X)
-print("Accuracy: " , accuracy_score(y, ypred))
-```
-
-
-See the [examples](examples) folder for a number of example usages.
-
-Note that some of the examples require the installation of extra python packages:
-
-```sh
-pip install matplotlib seaborn graphviz
-```
-
-Graphviz additionaly requires another instalation of a binary. See [their website](https://graphviz.org/download/).
-
-## C++ usage
+## Usage
 
 ### Compiling
 The code can be compiled on Windows or Linux by using cmake. For Windows users, cmake support can be installed as an extension of Visual Studio and then this repository can be imported as a CMake project.
@@ -93,8 +43,8 @@ ConTree can be configured by the following parameters:
 * `use_upper_bound` : Enables or disables the use of upper bounds.
 * `verbose` : Enable or disable verbose output.
 
-## Miscellaneous 
-ConTree assumes classification labels are in the range `0 ... n_labels - 1`. Not meeting this assumption may influence the algorithm's performance. Use sklearn's `LabelEncoder` to prevent this.
+## Miscellaneous
+ConTree assumes classification labels are in the range `0 ... n_labels - 1`. Not meeting this assumption may influence the algorithm's performance. Ensure your input data has properly encoded labels in this range.
 
 
 ## Related Work

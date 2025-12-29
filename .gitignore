@@ -4,8 +4,6 @@ code/cmake-build-release/
 code/build/
 code/.idea/
 code/.vscode/
-code/__pycache__/
-code/venv/
 build/
 code/out/
 
@@ -17,35 +15,28 @@ datasets/*/*
 code/results/*
 code/*results*
 
-# exported trees
-tree.pdf
+# Compiled object files
+*.o
+*.obj
 
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# Executables
+*.exe
+*.out
+ConTree
 
-# C extensions
+# C/C++ shared libraries
 *.so
+*.dll
+*.dylib
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-*.pyd
-(
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# IDE specific
+.idea/
+*.swp
+*.swo
+*~
