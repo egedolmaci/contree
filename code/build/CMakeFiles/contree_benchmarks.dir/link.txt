@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/contree_benchmarks.dir/benchmarks/benchmark_main.cpp.o -o contree_benchmarks  libcontree_lib.a /usr/lib/x86_64-linux-gnu/libbenchmark.so.1.8.3 

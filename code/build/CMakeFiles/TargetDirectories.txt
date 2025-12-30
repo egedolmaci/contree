@@ -1,5 +1,0 @@
-/home/dolmaci/school/contree/code/build/CMakeFiles/contree_benchmarks.dir
-/home/dolmaci/school/contree/code/build/CMakeFiles/contree_lib.dir
-/home/dolmaci/school/contree/code/build/CMakeFiles/ConTree.dir
-/home/dolmaci/school/contree/code/build/CMakeFiles/edit_cache.dir
-/home/dolmaci/school/contree/code/build/CMakeFiles/rebuild_cache.dir
