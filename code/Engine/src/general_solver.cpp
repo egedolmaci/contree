@@ -1,5 +1,9 @@
 #include "general_solver.h"
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const Configuration& solution_configuration, std::shared_ptr<Tree>& current_optimal_decision_tree, int upper_bound) {
     if (current_optimal_decision_tree->misclassification_score == 0 || dataview.get_dataset_size() == 0) {
         return;
@@ -20,14 +24,63 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
         return;
     }
 
-    for (int feature_nr = 0; feature_nr < dataview.get_feature_number(); feature_nr++) {
-        int feature_index = dataview.gini_values[feature_nr].second;
-        create_optimal_decision_tree(dataview, solution_configuration, feature_index, current_optimal_decision_tree, std::min(upper_bound, current_optimal_decision_tree->misclassification_score));
+    // Pre-initialize bitset to avoid race condition
+    dataview.get_bitset();
 
-        if (current_optimal_decision_tree->misclassification_score == 0) {
-            return;
+    // Store initial best score
+    int initial_best_score = current_optimal_decision_tree->misclassification_score;
+    bool should_terminate = false;
+
+    #pragma omp parallel if(dataview.get_feature_number() > 1)
+    {
+        // Thread-local best tree
+        std::shared_ptr<Tree> thread_local_best = std::make_shared<Tree>(-1, initial_best_score);
+
+        #pragma omp for schedule(dynamic) nowait
+        for (int feature_nr = 0; feature_nr < dataview.get_feature_number(); feature_nr++) {
+            // Check for early termination
+            #pragma omp flush(should_terminate)
+            if (should_terminate) continue;
+
+            int feature_index = dataview.gini_values[feature_nr].second;
+
+            // Get current best upper bound
+            int current_upper_bound;
+            #pragma omp critical(update_tree)
+            {
+                current_upper_bound = std::min(upper_bound, current_optimal_decision_tree->misclassification_score);
+            }
+
+            // Solve for this feature
+            std::shared_ptr<Tree> feature_tree = std::make_shared<Tree>(-1, current_upper_bound);
+            create_optimal_decision_tree(dataview, solution_configuration, feature_index, feature_tree, current_upper_bound);
+
+            // Update thread-local best
+            if (feature_tree->misclassification_score < thread_local_best->misclassification_score) {
+                thread_local_best = feature_tree;
+            }
+
+            // Update global best if improved
+            #pragma omp critical(update_tree)
+            {
+                if (thread_local_best->misclassification_score < current_optimal_decision_tree->misclassification_score) {
+                    *current_optimal_decision_tree = *thread_local_best;
+                    thread_local_best = std::make_shared<Tree>(-1, current_optimal_decision_tree->misclassification_score);
+                }
+
+                // Check termination
+                if (current_optimal_decision_tree->misclassification_score == 0 ||
+                    !solution_configuration.stopwatch.IsWithinTimeLimit()) {
+                    should_terminate = true;
+                }
+            }
         }
-        if (!solution_configuration.stopwatch.IsWithinTimeLimit()) return;
+    }
+
+    // Final early return check
+    if (current_optimal_decision_tree->misclassification_score == 0 ||
+        !solution_configuration.stopwatch.IsWithinTimeLimit()) {
+        return;
     }
 }
 

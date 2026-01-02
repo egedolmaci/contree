@@ -2,8 +2,8 @@
 
 #include "statistics.h"
 
-unsigned long long statistics::total_number_of_specialized_solver_calls = 0;
-unsigned long long statistics::total_number_of_general_solver_calls = 0;
+std::atomic<unsigned long long> statistics::total_number_of_specialized_solver_calls{0};
+std::atomic<unsigned long long> statistics::total_number_of_general_solver_calls{0};
 
 bool statistics::should_print = false;
 
