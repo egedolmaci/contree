@@ -14,13 +14,18 @@
 
   if (CMAKE_BUILD_TYPE STREQUAL "Release")
       message(STATUS "Compiling in release mode")
-  else()
-      message(STATUS "Compiling in debug mode")
-      add_compile_definitions(DEBUG=1)
   endif()
 
   # Now include FetchContent - CMAKE_BUILD_TYPE is already set
   include(FetchContent)
+
+  # Find OpenMP
+  find_package(OpenMP)
+  if(OpenMP_CXX_FOUND)
+      message(STATUS "OpenMP found: ${OpenMP_CXX_VERSION}")
+  else()
+      message(WARNING "OpenMP not found - building without parallel support")
+  endif()
 
   option(BUILD_BENCHMARKS "Build benchmarks" ON)
 
@@ -78,6 +83,11 @@
   # Create library from sources
   add_library(contree_lib STATIC ${LIB_SRC_FILES})
   target_include_directories(contree_lib PUBLIC ${INCLUDE_DIRS})
+
+  # Link OpenMP to library
+  if(OpenMP_CXX_FOUND)
+      target_link_libraries(contree_lib PUBLIC OpenMP::OpenMP_CXX)
+  endif()
 
   # Create the executable
   add_executable(ConTree main.cpp)

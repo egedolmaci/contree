@@ -17,13 +17,18 @@
       std::string path;
   };
 
-  // Our 5 easy datasets
+  // Small and medium datasets only (8 total)
   static const DatasetConfig datasets[] = {
-      {"bank", "../../datasets/bank.txt"},
-      {"raisin", "../../datasets/raisin.txt"},
-      {"wilt", "../../datasets/wilt.txt"},
-      {"rice", "../../datasets/rice.txt"},
-      {"segment", "../../datasets/segment.txt"}
+      // Small datasets
+      {"bank", "../../datasets/bank.txt"},           // 108 KB
+      {"raisin", "../../datasets/raisin.txt"},       // 123 KB
+      {"wilt", "../../datasets/wilt.txt"},           // 486 KB
+      {"rice", "../../datasets/rice.txt"},           // 518 KB
+      // Medium datasets
+      {"segment", "../../datasets/segment.txt"},     // 754 KB
+      {"bidding", "../../datasets/bidding.txt"},     // 861 KB
+      {"fault", "../../datasets/fault.txt"},         // 938 KB
+      {"page", "../../datasets/page.txt"},           // 1.1 MB
   };
 
   // Helper function
@@ -41,7 +46,7 @@
       config.use_upper_bound = true;
       config.sort_gini = false;
       config.print_logs = false;
-      config.stopwatch.Initialise(1000000.0);
+      config.stopwatch.Initialise(120.0);  // 2 minute timeout per benchmark
 
       Dataview dataview = Dataview(&sorted_dataset, &unsorted_dataset, class_number, config.sort_gini);
 
@@ -70,17 +75,24 @@
   }
 
   BENCHMARK(BM_ConTree)
+      // Small datasets
       ->Args({0, 3})  // bank, depth 3
       ->Args({0, 4})  // bank, depth 4
-
       ->Args({1, 3})  // raisin, depth 3
       ->Args({1, 4})  // raisin, depth 4
       ->Args({2, 3})  // wilt, depth 3
       ->Args({2, 4})  // wilt, depth 4
       ->Args({3, 3})  // rice, depth 3
       ->Args({3, 4})  // rice, depth 4
+      // Medium datasets
       ->Args({4, 3})  // segment, depth 3
       ->Args({4, 4})  // segment, depth 4
+      ->Args({5, 3})  // bidding, depth 3
+      ->Args({5, 4})  // bidding, depth 4
+      ->Args({6, 3})  // fault, depth 3
+      ->Args({6, 4})  // fault, depth 4
+      ->Args({7, 3})  // page, depth 3
+      ->Args({7, 4})  // page, depth 4
       ->Unit(benchmark::kSecond);
 
   BENCHMARK_MAIN();

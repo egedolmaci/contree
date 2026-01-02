@@ -1,0 +1,40 @@
+Benchmark Comparison Report
+Generated: 2026-01-02 22:15:15
+Baseline: results/baseline.json
+Comparison: results/feature8.json
+
+Loading baseline: baseline.json
+Loading comparison: feature8.json
+
+====================================================================================================
+Benchmark Comparison: baseline.json vs feature8.json
+====================================================================================================
+
+Benchmark                 Baseline Time   Comparison Time Speedup      Improvement 
+----------------------------------------------------------------------------------------------------
+bank_d3                   41.138 ms       26.264 ms         1.57x        56.6%
+bank_d4                   18.026 ms       30.273 ms         0.60x       -40.5%
+raisin_d3                 896.889 ms      538.157 ms        1.67x        66.7%
+raisin_d4                 100.505 s       119.818 s         0.84x       -16.1%
+wilt_d3                   1.103 s         681.566 ms        1.62x        61.8%
+wilt_d4                   32.636 s        17.353 s          1.88x        88.1%
+rice_d3                   19.757 s        8.011 s           2.47x       146.6%
+rice_d4                   118.471 s       119.392 s         0.99x        -0.8%
+segment_d3                4.581 s         1.371 s           3.34x       234.1%
+segment_d4                118.478 s       119.458 s         0.99x        -0.8%
+bidding_d3                4.423 s         539.752 ms        8.19x       719.5%
+bidding_d4                22.490 s        7.941 s           2.83x       183.2%
+fault_d3                  27.183 s        12.268 s          2.22x       121.6%
+fault_d4                  119.267 s       120.199 s         0.99x        -0.8%
+page_d3                   3.341 s         1.327 s           2.52x       151.8%
+page_d4                   119.719 s       107.587 s         1.11x        11.3%
+----------------------------------------------------------------------------------------------------
+AVERAGE                                                     2.11x       111.4%
+====================================================================================================
+
+Summary:
+  • Total benchmarks compared: 16
+  • Average speedup: 2.11x
+  • Average improvement: 111.4%
+  • Overall: feature8.json is FASTER ✓
+

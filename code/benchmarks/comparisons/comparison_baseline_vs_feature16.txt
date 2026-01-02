@@ -1,0 +1,40 @@
+Benchmark Comparison Report
+Generated: 2026-01-02 22:27:35
+Baseline: results/baseline.json
+Comparison: results/feature16.json
+
+Loading baseline: baseline.json
+Loading comparison: feature16.json
+
+====================================================================================================
+Benchmark Comparison: baseline.json vs feature16.json
+====================================================================================================
+
+Benchmark                 Baseline Time   Comparison Time Speedup      Improvement 
+----------------------------------------------------------------------------------------------------
+bank_d3                   41.138 ms       27.827 ms         1.48x        47.8%
+bank_d4                   18.026 ms       22.636 ms         0.80x       -20.4%
+raisin_d3                 896.889 ms      286.328 ms        3.13x       213.2%
+raisin_d4                 100.505 s       96.092 s          1.05x         4.6%
+wilt_d3                   1.103 s         26.359 ms        41.83x      4082.8%
+wilt_d4                   32.636 s        23.320 ms       1399.46x      139845.7%
+rice_d3                   19.757 s        22.898 ms       862.81x      86180.7%
+rice_d4                   118.471 s       30.978 ms       3824.38x      382338.0%
+segment_d3                4.581 s         951.837 ms        4.81x       381.3%
+segment_d4                118.478 s       101.068 s         1.17x        17.2%
+bidding_d3                4.423 s         307.065 ms       14.40x      1340.5%
+bidding_d4                22.490 s        191.902 ms      117.20x      11619.7%
+fault_d3                  27.183 s        7.457 s           3.65x       264.5%
+fault_d4                  119.267 s       105.350 s         1.13x        13.2%
+page_d3                   3.341 s         42.408 ms        78.78x      7778.3%
+page_d4                   119.719 s       38.621 ms       3099.88x      309887.5%
+----------------------------------------------------------------------------------------------------
+AVERAGE                                                   591.00x      58999.7%
+====================================================================================================
+
+Summary:
+  • Total benchmarks compared: 16
+  • Average speedup: 591.00x
+  • Average improvement: 58999.7%
+  • Overall: feature16.json is FASTER ✓
+

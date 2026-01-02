@@ -1,0 +1,40 @@
+Benchmark Comparison Report
+Generated: 2026-01-02 21:50:45
+Baseline: results/baseline.json
+Comparison: results/feature1.json
+
+Loading baseline: baseline.json
+Loading comparison: feature1.json
+
+====================================================================================================
+Benchmark Comparison: baseline.json vs feature1.json
+====================================================================================================
+
+Benchmark                 Baseline Time   Comparison Time Speedup      Improvement 
+----------------------------------------------------------------------------------------------------
+bank_d3                   41.138 ms       56.270 ms         0.73x       -26.9%
+bank_d4                   18.026 ms       22.059 ms         0.82x       -18.3%
+raisin_d3                 896.889 ms      1.152 s           0.78x       -22.2%
+raisin_d4                 100.505 s       119.160 s         0.84x       -15.7%
+wilt_d3                   1.103 s         1.519 s           0.73x       -27.4%
+wilt_d4                   32.636 s        41.706 s          0.78x       -21.7%
+rice_d3                   19.757 s        23.097 s          0.86x       -14.5%
+rice_d4                   118.471 s       118.715 s         1.00x        -0.2%
+segment_d3                4.581 s         6.037 s           0.76x       -24.1%
+segment_d4                118.478 s       118.960 s         1.00x        -0.4%
+bidding_d3                4.423 s         5.444 s           0.81x       -18.7%
+bidding_d4                22.490 s        27.997 s          0.80x       -19.7%
+fault_d3                  27.183 s        33.931 s          0.80x       -19.9%
+fault_d4                  119.267 s       119.692 s         1.00x        -0.4%
+page_d3                   3.341 s         4.118 s           0.81x       -18.9%
+page_d4                   119.719 s       119.908 s         1.00x        -0.2%
+----------------------------------------------------------------------------------------------------
+AVERAGE                                                     0.84x       -15.6%
+====================================================================================================
+
+Summary:
+  • Total benchmarks compared: 16
+  • Average speedup: 0.84x
+  • Average improvement: -15.6%
+  • Overall: feature1.json is SLOWER (1.18x slowdown)
+

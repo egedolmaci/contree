@@ -1,0 +1,40 @@
+Benchmark Comparison Report
+Generated: 2026-01-03 00:00:41
+Baseline: results/baseline.json
+Comparison: results/feature64.json
+
+Loading baseline: baseline.json
+Loading comparison: feature64.json
+
+====================================================================================================
+Benchmark Comparison: baseline.json vs feature64.json
+====================================================================================================
+
+Benchmark                 Baseline Time   Comparison Time Speedup      Improvement 
+----------------------------------------------------------------------------------------------------
+bank_d3                   41.138 ms       2.716 ms         15.14x      1414.4%
+bank_d4                   18.026 ms       4.262 ms          4.23x       322.9%
+raisin_d3                 896.889 ms      2.978 ms        301.16x      30015.6%
+raisin_d4                 100.505 s       2.940 ms        34189.33x      3418832.8%
+wilt_d3                   1.103 s         46.216 ms        23.86x      2285.7%
+wilt_d4                   32.636 s        10.644 ms       3066.21x      306520.5%
+rice_d3                   19.757 s        11.632 ms       1698.49x      169748.9%
+rice_d4                   118.471 s       10.884 ms       10885.33x      1088433.3%
+segment_d3                4.581 s         646.800 ms        7.08x       608.3%
+segment_d4                118.478 s       115.855 s         1.02x         2.3%
+bidding_d3                4.423 s         106.786 ms       41.42x      4042.1%
+bidding_d4                22.490 s        16.541 ms       1359.68x      135868.1%
+fault_d3                  27.183 s        16.656 ms       1632.06x      163106.3%
+fault_d4                  119.267 s       71.803 s          1.66x        66.1%
+page_d3                   3.341 s         485.696 ms        6.88x       587.9%
+page_d4                   119.719 s       19.468 ms       6149.36x      614836.2%
+----------------------------------------------------------------------------------------------------
+AVERAGE                                                   3711.43x      371043.2%
+====================================================================================================
+
+Summary:
+  • Total benchmarks compared: 16
+  • Average speedup: 3711.43x
+  • Average improvement: 371043.2%
+  • Overall: feature64.json is FASTER ✓
+
