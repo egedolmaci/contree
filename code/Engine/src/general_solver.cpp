@@ -1,8 +1,5 @@
 #include "general_solver.h"
-
-#ifdef _OPENMP
 #include <omp.h>
-#endif
 
 void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const Configuration& solution_configuration, std::shared_ptr<Tree>& current_optimal_decision_tree, int upper_bound) {
     if (current_optimal_decision_tree->misclassification_score == 0 || dataview.get_dataset_size() == 0) {
@@ -132,19 +129,45 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
 
         int larger_ub = solution_configuration.use_upper_bound ? std::min(upper_bound, current_optimal_decision_tree->misclassification_score)
                                        : current_optimal_decision_tree->misclassification_score;
-                
+
         statistics::total_number_of_general_solver_calls += 1;
 
         const Configuration left_solution_configuration = solution_configuration.GetLeftSubtreeConfig();
-        GeneralSolver::create_optimal_decision_tree(larger_data, left_solution_configuration, larger_optimal_dt, larger_ub);
 
-        int smaller_ub = solution_configuration.use_upper_bound ? std::max(std::min(current_optimal_decision_tree->misclassification_score, upper_bound) - larger_optimal_dt->misclassification_score, interval_half_distance) 
+        // Threshold for task creation: only use tasks for larger problems
+        const int TASK_CUTOFF_SIZE = 50;  // Minimum dataset size to create tasks
+        const int TASK_CUTOFF_DEPTH = 3;  // Maximum depth to create tasks (avoid deep nesting)
+        bool use_tasks = (larger_data.get_dataset_size() >= TASK_CUTOFF_SIZE &&
+                          solution_configuration.max_depth >= TASK_CUTOFF_DEPTH);
+
+        if (use_tasks && omp_in_parallel()) {
+            // We're already in a parallel region (feature-level), use tasks for subtrees
+            #pragma omp task shared(larger_optimal_dt)
+            {
+                GeneralSolver::create_optimal_decision_tree(larger_data, left_solution_configuration, larger_optimal_dt, larger_ub);
+            }
+            #pragma omp taskwait  // Wait for larger subtree before computing bounds for smaller
+        } else {
+            // Sequential execution (not in parallel region, or problem too small)
+            GeneralSolver::create_optimal_decision_tree(larger_data, left_solution_configuration, larger_optimal_dt, larger_ub);
+        }
+
+        int smaller_ub = solution_configuration.use_upper_bound ? std::max(std::min(current_optimal_decision_tree->misclassification_score, upper_bound) - larger_optimal_dt->misclassification_score, interval_half_distance)
                                         : current_optimal_decision_tree->misclassification_score;
 
         if (smaller_ub > 0 || (smaller_ub == 0 && current_optimal_decision_tree->misclassification_score == larger_optimal_dt->misclassification_score)) {
             statistics::total_number_of_general_solver_calls += 1;
             const Configuration right_solution_configuration = solution_configuration.GetRightSubtreeConfig(left_solution_configuration.max_gap);
-            GeneralSolver::create_optimal_decision_tree(smaller_data, right_solution_configuration, smaller_optimal_dt, smaller_ub);
+
+            if (use_tasks && omp_in_parallel()) {
+                #pragma omp task shared(smaller_optimal_dt)
+                {
+                    GeneralSolver::create_optimal_decision_tree(smaller_data, right_solution_configuration, smaller_optimal_dt, smaller_ub);
+                }
+                #pragma omp taskwait  // Wait for smaller subtree
+            } else {
+                GeneralSolver::create_optimal_decision_tree(smaller_data, right_solution_configuration, smaller_optimal_dt, smaller_ub);
+            }
             RUNTIME_ASSERT(left_optimal_dt->misclassification_score >= 0, "Left tree should have non-negative misclassification score.");
             RUNTIME_ASSERT(right_optimal_dt->misclassification_score >= 0, "Right tree should have non-negative misclassification score.");
 

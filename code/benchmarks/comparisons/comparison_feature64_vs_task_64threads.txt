@@ -1,0 +1,40 @@
+Benchmark Comparison Report
+Generated: 2026-01-07 23:53:32
+Baseline: results/feature64.json
+Comparison: results/task_64threads.json
+
+Loading baseline: feature64.json
+Loading comparison: task_64threads.json
+
+====================================================================================================
+Benchmark Comparison: feature64.json vs task_64threads.json
+====================================================================================================
+
+Benchmark                 Baseline Time   Comparison Time Speedup      Improvement 
+----------------------------------------------------------------------------------------------------
+bank_d3                   2.716 ms        5.646 ms          0.48x       -51.9%
+bank_d4                   4.262 ms        6.603 ms          0.65x       -35.4%
+raisin_d3                 2.978 ms        7.253 ms          0.41x       -58.9%
+raisin_d4                 2.940 ms        7.267 ms          0.40x       -59.6%
+wilt_d3                   46.216 ms       22.428 ms         2.06x       106.1%
+wilt_d4                   10.644 ms       21.906 ms         0.49x       -51.4%
+rice_d3                   11.632 ms       24.014 ms         0.48x       -51.6%
+rice_d4                   10.884 ms       24.039 ms         0.45x       -54.7%
+segment_d3                646.800 ms      822.528 ms        0.79x       -21.4%
+segment_d4                115.855 s       87.913 s          1.32x        31.8%
+bidding_d3                106.786 ms      38.403 ms         2.78x       178.1%
+bidding_d4                16.541 ms       36.862 ms         0.45x       -55.1%
+fault_d3                  16.656 ms       11.265 s          0.00x       -99.9%
+fault_d4                  71.803 s        67.323 s          1.07x         6.7%
+page_d3                   485.696 ms      41.860 ms        11.60x      1060.3%
+page_d4                   19.468 ms       41.365 ms         0.47x       -52.9%
+----------------------------------------------------------------------------------------------------
+AVERAGE                                                     1.49x        49.4%
+====================================================================================================
+
+Summary:
+  • Total benchmarks compared: 16
+  • Average speedup: 1.49x
+  • Average improvement: 49.4%
+  • Overall: task_64threads.json is FASTER ✓
+

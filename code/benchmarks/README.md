@@ -20,7 +20,7 @@ OMP_NUM_THREADS=8 ./contree_benchmarks --benchmark_out=../benchmarks/results/par
 
 ```bash
 cd benchmarks
-python3 compare_results.py results/serial.json results/parallel_4threads.json
+python3 compare_results.py results/baseline.json results/feature4.json
 ```
 
 ## compare_results.py
