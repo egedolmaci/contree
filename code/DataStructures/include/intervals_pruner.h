@@ -2,7 +2,8 @@
 #define INTERVALS_PRUNER_H
 
 #include <algorithm>
-#include <unordered_map>
+#include <atomic>
+#include <memory>
 #include <utility>
 #include <vector>
 
@@ -10,10 +11,10 @@ class IntervalsPruner {
 public:
     /**
      * Constructor for IntervalsPruner.
-     * 
+     *
      * Initializes the IntervalsPruner with a reference to a vector of possible split indexes
      * and a maximum allowable gap, which is used to control the permissibility of suboptimal solutions.
-     * 
+     *
      * @param possible_split_indexes_ref Reference to a vector containing possible split indices.
      * @param max_gap The maximum allowable gap for the solution to be considered valid (off by at most max_gap).
      */
@@ -78,12 +79,29 @@ public:
     void add_result(int index, int left_score, int right_score);
 
 private:
-    const std::vector<int>& possible_split_indexes; 
-    int possible_split_size;                    
-    int rightmost_zero_index;                      
-    int leftmost_zero_index;                       
-    int max_gap;                                   
-    std::unordered_map<int, std::pair<int, int>> evaluated_indices_record; 
+    // Cache-aligned atomic to prevent false sharing
+    // Typical cache line size is 64 bytes on x86-64
+    struct alignas(64) CacheAlignedAtomic {
+        std::atomic<int> value;
+
+        CacheAlignedAtomic() : value(-1) {}
+    };
+
+    const std::vector<int>& possible_split_indexes;
+    int possible_split_size;
+    std::atomic<int> rightmost_zero_index;
+    std::atomic<int> leftmost_zero_index;
+    int max_gap;
+
+    // Lock-free storage for evaluated results with cache-line alignment
+    std::unique_ptr<CacheAlignedAtomic[]> left_scores;
+    std::unique_ptr<CacheAlignedAtomic[]> right_scores;
+
+    // Helper to atomically update minimum
+    static void atomic_fetch_min(std::atomic<int>& target, int value);
+
+    // Helper to atomically update maximum
+    static void atomic_fetch_max(std::atomic<int>& target, int value);
 };
 
 #endif // INTERVALS_PRUNER_H

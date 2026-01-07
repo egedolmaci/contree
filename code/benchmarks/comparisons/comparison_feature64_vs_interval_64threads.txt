@@ -1,0 +1,40 @@
+Benchmark Comparison Report
+Generated: 2026-01-08 00:19:45
+Baseline: results/feature64.json
+Comparison: results/interval_64threads.json
+
+Loading baseline: feature64.json
+Loading comparison: interval_64threads.json
+
+====================================================================================================
+Benchmark Comparison: feature64.json vs interval_64threads.json
+====================================================================================================
+
+Benchmark                 Baseline Time   Comparison Time Speedup      Improvement 
+----------------------------------------------------------------------------------------------------
+bank_d3                   2.716 ms        5.575 ms          0.49x       -51.3%
+bank_d4                   4.262 ms        8.799 ms          0.48x       -51.6%
+raisin_d3                 2.978 ms        7.970 ms          0.37x       -62.6%
+raisin_d4                 2.940 ms        6.624 ms          0.44x       -55.6%
+wilt_d3                   46.216 ms       24.296 ms         1.90x        90.2%
+wilt_d4                   10.644 ms       21.861 ms         0.49x       -51.3%
+rice_d3                   11.632 ms       25.390 ms         0.46x       -54.2%
+rice_d4                   10.884 ms       22.187 ms         0.49x       -50.9%
+segment_d3                646.800 ms      833.327 ms        0.78x       -22.4%
+segment_d4                115.855 s       67.580 s          1.71x        71.4%
+bidding_d3                106.786 ms      36.927 ms         2.89x       189.2%
+bidding_d4                16.541 ms       35.633 ms         0.46x       -53.6%
+fault_d3                  16.656 ms       13.174 s          0.00x       -99.9%
+fault_d4                  71.803 s        67.477 s          1.06x         6.4%
+page_d3                   485.696 ms      45.171 ms        10.75x       975.2%
+page_d4                   19.468 ms       41.369 ms         0.47x       -52.9%
+----------------------------------------------------------------------------------------------------
+AVERAGE                                                     1.45x        45.4%
+====================================================================================================
+
+Summary:
+  • Total benchmarks compared: 16
+  • Average speedup: 1.45x
+  • Average improvement: 45.4%
+  • Overall: interval_64threads.json is FASTER ✓
+

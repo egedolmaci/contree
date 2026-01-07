@@ -94,7 +94,10 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
         if (!solution_configuration.stopwatch.IsWithinTimeLimit()) return;
         auto current_interval = unsearched_intervals.front(); unsearched_intervals.pop();
 
-        if (interval_pruner.subinterval_pruning(current_interval, current_optimal_decision_tree->misclassification_score)) {
+        // Lock-free IntervalsPruner access
+        bool should_prune = interval_pruner.subinterval_pruning(current_interval, current_optimal_decision_tree->misclassification_score);
+
+        if (should_prune) {
             continue;
         }
 
@@ -193,7 +196,7 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
         } else {
             smaller_optimal_dt->misclassification_score = -1;
         }
-        
+
         interval_pruner.add_result(mid, left_optimal_dt->misclassification_score, right_optimal_dt->misclassification_score);
 
         if (left == right) {
@@ -201,7 +204,10 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
         }
 
         const int score_difference = left_optimal_dt->misclassification_score + right_optimal_dt->misclassification_score - current_optimal_decision_tree->misclassification_score;
-        const auto [new_bound_left, new_bound_right] = interval_pruner.neighbourhood_pruning(score_difference, left, right, mid);
+
+        const auto bounds = interval_pruner.neighbourhood_pruning(score_difference, left, right, mid);
+        int new_bound_left = bounds.first;
+        int new_bound_right = bounds.second;
 
         if (new_bound_left <= right) {
             unsearched_intervals.push({new_bound_left, right, mid, current_right_bound});

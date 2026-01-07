@@ -1,0 +1,40 @@
+Benchmark Comparison Report
+Generated: 2026-01-08 01:06:41
+Baseline: results/lockfree_64threads.json
+Comparison: results/cachealigned_threads.json
+
+Loading baseline: lockfree_64threads.json
+Loading comparison: cachealigned_threads.json
+
+====================================================================================================
+Benchmark Comparison: lockfree_64threads.json vs cachealigned_threads.json
+====================================================================================================
+
+Benchmark                 Baseline Time   Comparison Time Speedup      Improvement 
+----------------------------------------------------------------------------------------------------
+bank_d3                   6.217 ms        5.809 ms          1.07x         7.0%
+bank_d4                   5.639 ms        5.605 ms          1.01x         0.6%
+raisin_d3                 7.735 ms        60.342 ms         0.13x       -87.2%
+raisin_d4                 6.694 ms        6.879 ms          0.97x        -2.7%
+wilt_d3                   85.038 ms       22.264 ms         3.82x       282.0%
+wilt_d4                   22.164 ms       22.015 ms         1.01x         0.7%
+rice_d3                   109.089 ms      51.583 ms         2.11x       111.5%
+rice_d4                   23.700 ms       22.101 ms         1.07x         7.2%
+segment_d3                665.119 ms      603.374 ms        1.10x        10.2%
+segment_d4                83.230 s        55.847 s          1.49x        49.0%
+bidding_d3                40.130 ms       42.854 ms         0.94x        -6.4%
+bidding_d4                35.371 ms       35.186 ms         1.01x         0.5%
+fault_d3                  12.717 s        11.980 s          1.06x         6.2%
+fault_d4                  68.141 s        69.171 s          0.99x        -1.5%
+page_d3                   60.750 ms       43.412 ms         1.40x        39.9%
+page_d4                   40.807 ms       40.077 ms         1.02x         1.8%
+----------------------------------------------------------------------------------------------------
+AVERAGE                                                     1.26x        26.2%
+====================================================================================================
+
+Summary:
+  • Total benchmarks compared: 16
+  • Average speedup: 1.26x
+  • Average improvement: 26.2%
+  • Overall: cachealigned_threads.json is FASTER ✓
+
