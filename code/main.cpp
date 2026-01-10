@@ -11,6 +11,9 @@
 #include "parameter_handler.h"
 #include "statistics.h"
 #include "tree.h"
+#ifdef USE_CUDA
+#include "GPUBruteForceSolver.h"
+#endif
 
 void create_optimal_decision_tree(std::string file_name, int run_number, Configuration& config, double runtime_limit) {
     long long total_time = 0;
@@ -19,6 +22,15 @@ void create_optimal_decision_tree(std::string file_name, int run_number, Configu
 
     Dataset unsorted_dataset{}; int class_number = -1; 
     file_reader::read_file(file_name, unsorted_dataset, class_number);
+
+#ifdef USE_CUDA
+    if (config.use_gpu_bruteforce) {
+        Dataset sorted_for_gpu = unsorted_dataset;
+        sorted_for_gpu.sort_feature_values();
+        Dataview full_view(&sorted_for_gpu, &unsorted_dataset, class_number, false);
+        GPUBruteForceSolver::Initialize(full_view, config);
+    }
+#endif
 
     for (int run = 0; run < run_number; run++) {
         
@@ -60,6 +72,12 @@ void create_optimal_decision_tree(std::string file_name, int run_number, Configu
         statistics::print_statistics();
     }
 
+#ifdef USE_CUDA
+    if (config.use_gpu_bruteforce) {
+        GPUBruteForceSolver::FreeMemory();
+    }
+#endif
+
 }
 
 int main(int argc, char *argv[]) {
@@ -83,6 +101,8 @@ int main(int argc, char *argv[]) {
     config.max_gap = int(parameters.GetIntegerParameter("max-gap"));
     config.max_gap_decay = float(parameters.GetFloatParameter("max-gap-decay"));
     config.sort_gini = parameters.GetBooleanParameter("sort-features-gini-index");
+    config.use_gpu_bruteforce = parameters.GetBooleanParameter("use-gpu-bruteforce");
+    config.max_thresholds_per_feature = int(parameters.GetIntegerParameter("max-thresholds-per-feature"));
     
     
     if (config.print_logs) {

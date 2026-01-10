@@ -93,5 +93,25 @@ ParameterHandler ParameterHandler::DefineParameters() {
 		"Algorithmic Parameters"
 	);
 
+	parameters.DefineNewCategory("GPU Parameters");
+
+	parameters.DefineBooleanParameter
+	(
+		"use-gpu-bruteforce",
+		"Use GPU brute-force solver for depth <= 2 subtrees.",
+		false,
+		"GPU Parameters"
+	);
+
+	parameters.DefineIntegerParameter
+	(
+		"max-thresholds-per-feature",
+		"Maximum number of thresholds per feature for GPU solver.",
+		128,
+		"GPU Parameters",
+		1,
+		1000000
+	);
+
 	return parameters;
 }

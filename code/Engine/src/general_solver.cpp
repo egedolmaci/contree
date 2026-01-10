@@ -1,5 +1,8 @@
 #include "general_solver.h"
 #include <omp.h>
+#ifdef USE_CUDA
+#include "GPUBruteForceSolver.h"
+#endif
 
 void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const Configuration& solution_configuration, std::shared_ptr<Tree>& current_optimal_decision_tree, int upper_bound) {
     if (current_optimal_decision_tree->misclassification_score == 0 || dataview.get_dataset_size() == 0) {
@@ -15,6 +18,13 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
     if (current_optimal_decision_tree->misclassification_score <= solution_configuration.max_gap || dataview.get_dataset_size() == 1) {
         return;
     }
+
+#ifdef USE_CUDA
+    if (solution_configuration.use_gpu_bruteforce && solution_configuration.max_depth <= 2) {
+        GPUBruteForceSolver::solve(dataview, solution_configuration, current_optimal_decision_tree);
+        return;
+    }
+#endif
 
     if (solution_configuration.max_depth == 2) {
         SpecializedSolver::create_optimal_decision_tree(dataview, solution_configuration, current_optimal_decision_tree, std::min(upper_bound, current_optimal_decision_tree->misclassification_score));
