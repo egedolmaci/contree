@@ -40,3 +40,4 @@ Makefile
 *.swp
 *.swo
 *~
+build_cpu/

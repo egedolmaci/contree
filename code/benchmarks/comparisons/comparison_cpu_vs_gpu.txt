@@ -1,0 +1,17 @@
+Benchmark Comparison Report
+Generated: 2026-01-10 03:24:31
+Baseline: results/cpu.json
+Comparison: results/gpu.json
+
+Loading baseline: cpu.json
+Loading comparison: gpu.json
+
+====================================================================================================
+Benchmark Comparison: cpu.json vs gpu.json
+====================================================================================================
+
+Benchmark                 Baseline Time   Comparison Time Speedup      Improvement 
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+No matching benchmarks found!
+

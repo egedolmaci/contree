@@ -1,0 +1,143 @@
+{
+  "context": {
+    "date": "2026-01-10T02:12:51+03:00",
+    "host_name": "typhoon-i",
+    "executable": "../../build/contree_benchmarks",
+    "num_cpus": 64,
+    "mhz_per_cpu": 3400,
+    "cpu_scaling_enabled": true,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 49152,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 2097152,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 31457280,
+        "num_sharing": 32
+      }
+    ],
+    "load_avg": [0.637207,0.356934,0.201172],
+    "library_build_type": "release"
+  },
+  "benchmarks": [
+    {
+      "name": "BM_ConTree/0/3",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_ConTree/0/3",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 16,
+      "real_time": 3.1862407748121768e-02,
+      "cpu_time": 3.1860577437500003e-02,
+      "time_unit": "s",
+      "label": "bank_d3"
+    },
+    {
+      "name": "BM_ConTree/0/4",
+      "family_index": 0,
+      "per_family_instance_index": 1,
+      "run_name": "BM_ConTree/0/4",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 11,
+      "real_time": 7.7508265406570645e-02,
+      "cpu_time": 6.5454584909090924e-02,
+      "time_unit": "s",
+      "label": "bank_d4"
+    },
+    {
+      "name": "BM_ConTree/1/3",
+      "family_index": 0,
+      "per_family_instance_index": 2,
+      "run_name": "BM_ConTree/1/3",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 1,
+      "real_time": 5.2310618758201599e-01,
+      "cpu_time": 5.1577831499999993e-01,
+      "time_unit": "s",
+      "label": "raisin_d3"
+    },
+    {
+      "name": "BM_ConTree/1/4",
+      "family_index": 0,
+      "per_family_instance_index": 3,
+      "run_name": "BM_ConTree/1/4",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 1,
+      "real_time": 1.0460142798162997e+02,
+      "cpu_time": 8.9823763850999995e+01,
+      "time_unit": "s",
+      "label": "raisin_d4"
+    },
+    {
+      "name": "BM_ConTree/2/3",
+      "family_index": 0,
+      "per_family_instance_index": 4,
+      "run_name": "BM_ConTree/2/3",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 2,
+      "real_time": 4.6312147891148925e-01,
+      "cpu_time": 4.3238843449999820e-01,
+      "time_unit": "s",
+      "label": "wilt_d3"
+    },
+    {
+      "name": "BM_ConTree/2/4",
+      "family_index": 0,
+      "per_family_instance_index": 5,
+      "run_name": "BM_ConTree/2/4",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 1,
+      "real_time": 1.4153239547275007e+01,
+      "cpu_time": 1.0919478579000000e+01,
+      "time_unit": "s",
+      "label": "wilt_d4"
+    },
+    {
+      "name": "BM_ConTree/3/3",
+      "family_index": 0,
+      "per_family_instance_index": 6,
+      "run_name": "BM_ConTree/3/3",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 1,
+      "real_time": 6.7873947266489267e+00,
+      "cpu_time": 6.1848334790000052e+00,
+      "time_unit": "s",
+      "label": "rice_d3"
+    }

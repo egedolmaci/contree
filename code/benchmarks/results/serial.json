@@ -1,0 +1,83 @@
+{
+  "context": {
+    "date": "2026-01-10T02:11:36+03:00",
+    "host_name": "typhoon-i",
+    "executable": "../../build/contree_benchmarks",
+    "num_cpus": 64,
+    "mhz_per_cpu": 3400,
+    "cpu_scaling_enabled": true,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 49152,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 2097152,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 31457280,
+        "num_sharing": 32
+      }
+    ],
+    "load_avg": [0.120605,0.195312,0.137695],
+    "library_build_type": "release"
+  },
+  "benchmarks": [
+    {
+      "name": "BM_ConTree/0/3",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_ConTree/0/3",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 9,
+      "real_time": 7.8543575480580330e-02,
+      "cpu_time": 7.8502704222222219e-02,
+      "time_unit": "s",
+      "label": "bank_d3"
+    },
+    {
+      "name": "BM_ConTree/0/4",
+      "family_index": 0,
+      "per_family_instance_index": 1,
+      "run_name": "BM_ConTree/0/4",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 21,
+      "real_time": 3.2844202326876779e-02,
+      "cpu_time": 3.2831452666666670e-02,
+      "time_unit": "s",
+      "label": "bank_d4"
+    },
+    {
+      "name": "BM_ConTree/1/3",
+      "family_index": 0,
+      "per_family_instance_index": 2,
+      "run_name": "BM_ConTree/1/3",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 1,
+      "real_time": 1.2558575188741088e+00,
+      "cpu_time": 1.2551057669999999e+00,
+      "time_unit": "s",
+      "label": "raisin_d3"
+    }

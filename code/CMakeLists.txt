@@ -2,6 +2,11 @@
   project(ConTree)
 
   set(CMAKE_CXX_STANDARD 17)
+  option(ENABLE_CUDA "Enable CUDA GPU solver" OFF)
+  if (ENABLE_CUDA)
+      enable_language(CUDA)
+      add_definitions(-DUSE_CUDA)
+  endif()
 
   include(CheckIPOSupported)
   check_ipo_supported(RESULT ipo_supported OUTPUT ipo_error)
@@ -64,10 +69,15 @@
   endif()
 
   # Gather source files (excluding main.cpp)
+  file(GLOB_RECURSE SOURCES "Engine/src/*.cpp")
+  if (ENABLE_CUDA)
+      file(GLOB_RECURSE CUDA_SOURCES "Engine/src/*.cu")
+      list(APPEND SOURCES ${CUDA_SOURCES})
+  endif()
   file(GLOB LIB_SRC_FILES
           ${CMAKE_CURRENT_SOURCE_DIR}/DataStructures/src/*.cpp
           ${CMAKE_CURRENT_SOURCE_DIR}/Utilities/src/*.cpp
-          ${CMAKE_CURRENT_SOURCE_DIR}/Engine/src/*.cpp
+          ${SOURCES}
   )
 
   # Define include directories
@@ -83,6 +93,9 @@
   # Create library from sources
   add_library(contree_lib STATIC ${LIB_SRC_FILES})
   target_include_directories(contree_lib PUBLIC ${INCLUDE_DIRS})
+  if (ENABLE_CUDA)
+      set_property(TARGET contree_lib PROPERTY CUDA_SEPARABLE_COMPILATION ON)
+  endif()
 
   # Link OpenMP to library
   if(OpenMP_CXX_FOUND)
