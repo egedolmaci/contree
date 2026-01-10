@@ -102,6 +102,8 @@ int main(int argc, char *argv[]) {
     config.max_gap_decay = float(parameters.GetFloatParameter("max-gap-decay"));
     config.sort_gini = parameters.GetBooleanParameter("sort-features-gini-index");
     config.use_gpu_bruteforce = parameters.GetBooleanParameter("use-gpu-bruteforce");
+    config.serialize_gpu_calls = parameters.GetBooleanParameter("serialize-gpu-calls");
+    config.defer_gpu_checks = parameters.GetBooleanParameter("defer-gpu-checks");
     config.max_thresholds_per_feature = int(parameters.GetIntegerParameter("max-thresholds-per-feature"));
     
     

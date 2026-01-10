@@ -21,7 +21,18 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
 
 #ifdef USE_CUDA
     if (solution_configuration.use_gpu_bruteforce && solution_configuration.max_depth <= 2) {
-        GPUBruteForceSolver::solve(dataview, solution_configuration, current_optimal_decision_tree);
+        if (!solution_configuration.serialize_gpu_calls && omp_in_parallel()) {
+            std::cout << "[WARN] GPU brute-force called inside a parallel region without "
+                         "-serialize-gpu-calls; this is likely unsafe.\n";
+        }
+        if (solution_configuration.serialize_gpu_calls) {
+            #pragma omp critical(gpu_call)
+            {
+                GPUBruteForceSolver::solve(dataview, solution_configuration, current_optimal_decision_tree);
+            }
+        } else {
+            GPUBruteForceSolver::solve(dataview, solution_configuration, current_optimal_decision_tree);
+        }
         return;
     }
 #endif
@@ -83,6 +94,12 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
             }
         }
     }
+
+#ifdef USE_CUDA
+    if (solution_configuration.use_gpu_bruteforce && solution_configuration.defer_gpu_checks) {
+        GPUBruteForceSolver::RunDeferredChecks();
+    }
+#endif
 
     // Final early return check
     if (current_optimal_decision_tree->misclassification_score == 0 ||

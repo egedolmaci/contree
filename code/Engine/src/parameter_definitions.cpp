@@ -103,6 +103,22 @@ ParameterHandler ParameterHandler::DefineParameters() {
 		"GPU Parameters"
 	);
 
+	parameters.DefineBooleanParameter
+	(
+		"serialize-gpu-calls",
+		"Serialize GPU brute-force calls and result reads (debug test A).",
+		false,
+		"GPU Parameters"
+	);
+
+	parameters.DefineBooleanParameter
+	(
+		"defer-gpu-checks",
+		"Defer CPU-vs-GPU checks until after parallel regions (debug test B).",
+		false,
+		"GPU Parameters"
+	);
+
 	parameters.DefineIntegerParameter
 	(
 		"max-thresholds-per-feature",

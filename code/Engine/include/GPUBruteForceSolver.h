@@ -21,6 +21,8 @@ public:
         const Configuration& config,
         std::shared_ptr<Tree>& out_tree
     );
+
+    static void RunDeferredChecks();
 };
 
 #ifdef USE_CUDA

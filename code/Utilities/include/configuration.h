@@ -37,6 +37,8 @@ struct Configuration {
     bool print_logs;
     bool use_upper_bound;
     bool use_gpu_bruteforce{ false };
+    bool serialize_gpu_calls{ false };
+    bool defer_gpu_checks{ false };
     int max_thresholds_per_feature{ 128 };
     bool is_root{ false };
     bool sort_gini{ false };

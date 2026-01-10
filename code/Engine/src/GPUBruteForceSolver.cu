@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <omp.h>
 
 #ifndef CUDA_CHECK
 #define CUDA_CHECK(x) do {                                      \
@@ -75,6 +76,19 @@ struct HostCandidateInfo {
     float threshold;
 };
 static std::vector<HostCandidateInfo> h_candidates_info;
+
+struct DeferredCheck {
+    std::shared_ptr<Tree> tree;
+    Dataview dataview;
+};
+static std::vector<DeferredCheck> g_deferred_checks;
+
+static void queue_deferred_check(const std::shared_ptr<Tree>& tree, const Dataview& dataview) {
+    #pragma omp critical(gpu_check_queue)
+    {
+        g_deferred_checks.push_back({tree, dataview});
+    }
+}
 
 static inline int predict_row(const Tree& t, const Dataview& dv, int row_idx) {
     const Tree* cur = &t;
@@ -382,7 +396,7 @@ __global__ void solve_depth2_binary_kernel(
         int cLR = (lane < nw) ? s_w_cls_LR[lane] : 0;
 
         int vR = (lane < nw) ? s_w_best_R[lane] : INT_MAX;
-        int iR = (lane < nw) ? s_w_idx_R[lane] : -1;Bes
+        int iR = (lane < nw) ? s_w_idx_R[lane] : -1;
         int cRL = (lane < nw) ? s_w_cls_RL[lane] : 0;
         int cRR = (lane < nw) ? s_w_cls_RR[lane] : 0;
 
@@ -1059,18 +1073,39 @@ void GPUBruteForceSolver::solve(
             );
 
             if (config.print_logs) {
-                check_leaf_regions_depth2(*out_tree, dataview);
-                int cpu_mis = cpu_mis_on_dataview(*out_tree, dataview);
-                std::cout << "[CHECK] GPU_score=" << out_tree->misclassification_score
-                          << " CPU_eval=" << cpu_mis << "\n";
-                RUNTIME_ASSERT(out_tree->misclassification_score == cpu_mis,
-                               "GPU misclassification_score != CPU evaluated mis");
+                if (config.defer_gpu_checks && omp_in_parallel()) {
+                    queue_deferred_check(out_tree, dataview);
+                } else {
+                    check_leaf_regions_depth2(*out_tree, dataview);
+                    int cpu_mis = cpu_mis_on_dataview(*out_tree, dataview);
+                    std::cout << "[CHECK] GPU_score=" << out_tree->misclassification_score
+                              << " CPU_eval=" << cpu_mis << "\n";
+                    RUNTIME_ASSERT(out_tree->misclassification_score == cpu_mis,
+                                   "GPU misclassification_score != CPU evaluated mis");
+                }
             }
         }
     }
 
     if (best_idx == -1) {
         return;
+    }
+}
+
+void GPUBruteForceSolver::RunDeferredChecks() {
+    std::vector<DeferredCheck> pending;
+    #pragma omp critical(gpu_check_queue)
+    {
+        pending.swap(g_deferred_checks);
+    }
+
+    for (const auto& entry : pending) {
+        check_leaf_regions_depth2(*entry.tree, entry.dataview);
+        int cpu_mis = cpu_mis_on_dataview(*entry.tree, entry.dataview);
+        std::cout << "[CHECK] GPU_score=" << entry.tree->misclassification_score
+                  << " CPU_eval=" << cpu_mis << "\n";
+        RUNTIME_ASSERT(entry.tree->misclassification_score == cpu_mis,
+                       "GPU misclassification_score != CPU evaluated mis");
     }
 }
 
