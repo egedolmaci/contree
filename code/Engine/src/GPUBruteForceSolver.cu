@@ -13,6 +13,8 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <atomic>
+#include <mutex>
 #include <omp.h>
 
 #ifndef CUDA_CHECK
@@ -53,22 +55,36 @@ struct BestPack {
     int bR;
     int clsLL, clsLR, clsRL, clsRR;
 };
-static BestPack* d_block_best = nullptr;
-static BestPack* d_best_one = nullptr;
-static BestPack* h_best_pinned = nullptr;
-static uint32_t* d_active = nullptr;
-static int* d_err = nullptr;
-static int* d_bL = nullptr;
-static int* d_bR = nullptr;
-static int* d_leafs = nullptr;
-static uint32_t* h_active_pinned = nullptr;
-static size_t h_active_pinned_bytes = 0;
-static cudaStream_t g_stream = nullptr;
+
+struct GPUThreadContext {
+    cudaStream_t stream = nullptr;
+
+    // per-thread device scratch
+    uint32_t* d_active = nullptr;
+    int* d_err = nullptr;
+    int* d_bL  = nullptr;
+    int* d_bR  = nullptr;
+    int* d_leafs = nullptr;
+
+    BestPack* d_block_best = nullptr;
+    BestPack* d_best_one = nullptr;
+
+    // per-thread pinned host scratch
+    uint32_t* h_active_pinned = nullptr;
+    size_t h_active_pinned_bytes = 0;
+    BestPack* h_best_pinned = nullptr;
+
+    int blocks_for_reduce = 0;
+    bool allocated = false;
+};
+
+static thread_local GPUThreadContext tls;
 static int global_num_words = 0;
 static int global_num_classes = 0;
 static int global_num_candidates = 0;
 static int global_num_rows = 0;
-static bool is_initialized = false;
+static std::atomic<bool> is_initialized{false};
+static std::mutex init_mutex;
 static std::vector<uint32_t> h_class_masks_host;
 
 struct HostCandidateInfo {
@@ -111,6 +127,60 @@ static inline int cpu_mis_on_dataview(const Tree& t, const Dataview& dv) {
         mis += (yhat != y);
     }
     return mis;
+}
+
+static void free_thread_context(GPUThreadContext& ctx) {
+    if (ctx.stream) {
+        CUDA_CHECK(cudaStreamSynchronize(ctx.stream));
+    }
+    if (ctx.d_best_one) cudaFree(ctx.d_best_one);
+    if (ctx.d_block_best) cudaFree(ctx.d_block_best);
+    if (ctx.h_best_pinned) cudaFreeHost(ctx.h_best_pinned);
+    if (ctx.d_leafs) cudaFree(ctx.d_leafs);
+    if (ctx.d_bR) cudaFree(ctx.d_bR);
+    if (ctx.d_bL) cudaFree(ctx.d_bL);
+    if (ctx.d_err) cudaFree(ctx.d_err);
+    if (ctx.d_active) cudaFree(ctx.d_active);
+    if (ctx.h_active_pinned) cudaFreeHost(ctx.h_active_pinned);
+    if (ctx.stream) cudaStreamDestroy(ctx.stream);
+
+    ctx = GPUThreadContext{};
+}
+
+static void EnsureThreadContextAllocated() {
+    if (tls.allocated) return;
+    if (!is_initialized.load()) {
+        std::fprintf(stderr, "[GPU ERROR] Initialize must be called before solve().\n");
+        std::abort();
+    }
+
+    CUDA_CHECK(cudaStreamCreate(&tls.stream));
+    CUDA_CHECK(cudaMalloc(&tls.d_active, global_num_words * sizeof(uint32_t)));
+    CUDA_CHECK(cudaMalloc(&tls.d_err, global_num_candidates * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&tls.d_bL, global_num_candidates * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&tls.d_bR, global_num_candidates * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&tls.d_leafs, global_num_candidates * 4 * sizeof(int)));
+
+    int threads = 256;
+    tls.blocks_for_reduce = (global_num_candidates + threads - 1) / threads;
+    if (global_num_candidates > 0) {
+        CUDA_CHECK(cudaMalloc(&tls.d_block_best, tls.blocks_for_reduce * sizeof(BestPack)));
+        CUDA_CHECK(cudaMalloc(&tls.d_best_one, sizeof(BestPack)));
+        CUDA_CHECK(cudaHostAlloc(
+            reinterpret_cast<void**>(&tls.h_best_pinned),
+            sizeof(BestPack),
+            cudaHostAllocDefault
+        ));
+    }
+
+    tls.h_active_pinned_bytes = static_cast<size_t>(global_num_words) * sizeof(uint32_t);
+    CUDA_CHECK(cudaHostAlloc(
+        reinterpret_cast<void**>(&tls.h_active_pinned),
+        tls.h_active_pinned_bytes,
+        cudaHostAllocDefault
+    ));
+
+    tls.allocated = true;
 }
 
 __device__ __forceinline__ bool better(const BestPack& a, const BestPack& b) {
@@ -560,7 +630,9 @@ __global__ void solve_depth2_fast_kernel(
 // HOST: Initialize
 // --------------------------------------------------------
 void GPUBruteForceSolver::Initialize(const Dataview& full_dataset, const Configuration& config) {
-    if (is_initialized) return;
+    // Initialization must happen before solve(); guarded for concurrent calls.
+    std::lock_guard<std::mutex> lock(init_mutex);
+    if (is_initialized.load()) return;
 
     int N = full_dataset.get_dataset_size();
     int F = full_dataset.get_feature_number();
@@ -673,86 +745,37 @@ void GPUBruteForceSolver::Initialize(const Dataview& full_dataset, const Configu
         }
     }
 
-    CUDA_CHECK(cudaStreamCreate(&g_stream));
     CUDA_CHECK(cudaMalloc(&d_class_masks, h_class_masks.size() * sizeof(uint32_t)));
     CUDA_CHECK(cudaMalloc(&d_candidate_masks, h_cand_masks.size() * sizeof(uint32_t)));
 
-    CUDA_CHECK(cudaMemcpyAsync(
+    CUDA_CHECK(cudaMemcpy(
         d_class_masks,
         h_class_masks.data(),
         h_class_masks.size() * sizeof(uint32_t),
-        cudaMemcpyHostToDevice,
-        g_stream
+        cudaMemcpyHostToDevice
     ));
-    CUDA_CHECK(cudaMemcpyAsync(
+    CUDA_CHECK(cudaMemcpy(
         d_candidate_masks,
         h_cand_masks.data(),
         h_cand_masks.size() * sizeof(uint32_t),
-        cudaMemcpyHostToDevice,
-        g_stream
+        cudaMemcpyHostToDevice
     ));
-
-    CUDA_CHECK(cudaMalloc(&d_active, global_num_words * sizeof(uint32_t)));
-    CUDA_CHECK(cudaMalloc(&d_err, global_num_candidates * sizeof(int)));
-    CUDA_CHECK(cudaMalloc(&d_bL, global_num_candidates * sizeof(int)));
-    CUDA_CHECK(cudaMalloc(&d_bR, global_num_candidates * sizeof(int)));
-    CUDA_CHECK(cudaMalloc(&d_leafs, global_num_candidates * 4 * sizeof(int)));
-
-    if (global_num_candidates > 0) {
-        int threads = 256;
-        int blocks = (global_num_candidates + threads - 1) / threads;
-        CUDA_CHECK(cudaMalloc(&d_block_best, blocks * sizeof(BestPack)));
-        CUDA_CHECK(cudaMalloc(&d_best_one, sizeof(BestPack)));
-        CUDA_CHECK(cudaHostAlloc(
-            reinterpret_cast<void**>(&h_best_pinned),
-            sizeof(BestPack),
-            cudaHostAllocDefault
-        ));
-    }
-
-    h_active_pinned_bytes = static_cast<size_t>(global_num_words) * sizeof(uint32_t);
-    CUDA_CHECK(cudaHostAlloc(
-        reinterpret_cast<void**>(&h_active_pinned),
-        h_active_pinned_bytes,
-        cudaHostAllocDefault
-    ));
-
-    CUDA_CHECK(cudaStreamSynchronize(g_stream));
     h_class_masks_host = h_class_masks;
 
-    is_initialized = true;
+    is_initialized.store(true);
+    if (config.print_logs) {
+        std::cout << "[GPU] thread-safe mode enabled (per-thread streams/buffers)\n";
+    }
 }
 
 void GPUBruteForceSolver::FreeMemory() {
-    if (g_stream) {
-        CUDA_CHECK(cudaStreamSynchronize(g_stream));
-    }
-    if (d_best_one) cudaFree(d_best_one);
-    if (d_block_best) cudaFree(d_block_best);
-    if (h_best_pinned) cudaFreeHost(h_best_pinned);
-    if (d_leafs) cudaFree(d_leafs);
-    if (d_bR) cudaFree(d_bR);
-    if (d_bL) cudaFree(d_bL);
-    if (d_err) cudaFree(d_err);
-    if (d_active) cudaFree(d_active);
+    std::lock_guard<std::mutex> lock(init_mutex);
     if (d_candidate_masks) cudaFree(d_candidate_masks);
     if (d_class_masks) cudaFree(d_class_masks);
-    if (h_active_pinned) cudaFreeHost(h_active_pinned);
-    if (g_stream) cudaStreamDestroy(g_stream);
-    d_leafs = nullptr;
-    d_bR = nullptr;
-    d_bL = nullptr;
-    d_err = nullptr;
-    d_active = nullptr;
     d_candidate_masks = nullptr;
     d_class_masks = nullptr;
-    d_best_one = nullptr;
-    d_block_best = nullptr;
-    h_best_pinned = nullptr;
-    h_active_pinned = nullptr;
-    h_active_pinned_bytes = 0;
-    g_stream = nullptr;
-    is_initialized = false;
+    h_class_masks_host.clear();
+    is_initialized.store(false);
 }
 
 // --------------------------------------------------------
@@ -764,17 +787,15 @@ void GPUBruteForceSolver::solve(
     std::shared_ptr<Tree>& out_tree
 ) {
     if (!out_tree) out_tree = std::make_shared<Tree>();
-    if (!is_initialized) {
+    if (!is_initialized.load()) {
         std::fprintf(
             stderr,
             "[GPU ERROR] GPUBruteForceSolver::Initialize must be called with the full dataset before solve().\n"
         );
         std::abort();
     }
-    if (!g_stream) {
-        std::fprintf(stderr, "[GPU ERROR] CUDA stream not initialized.\n");
-        std::abort();
-    }
+    EnsureThreadContextAllocated();
+    auto& ctx = tls;
 
     int N = dataview.get_dataset_size();
     int unsorted_size = static_cast<int>(dataview.get_unsorted_dataset_feature(0).size());
@@ -787,16 +808,16 @@ void GPUBruteForceSolver::solve(
         std::abort();
     }
 
-    if (!h_active_pinned) {
+    if (!ctx.h_active_pinned) {
         std::fprintf(stderr, "[GPU ERROR] Pinned host buffer not initialized.\n");
         std::abort();
     }
-    if (h_active_pinned_bytes != static_cast<size_t>(global_num_words) * sizeof(uint32_t)) {
+    if (ctx.h_active_pinned_bytes != static_cast<size_t>(global_num_words) * sizeof(uint32_t)) {
         std::fprintf(stderr, "[GPU ERROR] Pinned buffer size mismatch.\n");
         std::abort();
     }
-    std::memset(h_active_pinned, 0, h_active_pinned_bytes);
-    uint32_t* h_active = h_active_pinned;
+    std::memset(ctx.h_active_pinned, 0, ctx.h_active_pinned_bytes);
+    uint32_t* h_active = ctx.h_active_pinned;
     const auto& instances = dataview.get_sorted_dataset_feature(0);
     int max_idx = -1;
     for (const auto& inst : instances) {
@@ -826,7 +847,7 @@ void GPUBruteForceSolver::solve(
     static int did_zero_trap = 0;
     if (kZeroMaskTrap && !did_zero_trap) {
         did_zero_trap = 1;
-        std::memset(h_active, 0, h_active_pinned_bytes);
+        std::memset(h_active, 0, ctx.h_active_pinned_bytes);
         if (pad_bits > 0) {
             uint32_t keep = 0xFFFFFFFFu >> pad_bits;
             h_active[global_num_words - 1] &= keep;
@@ -851,21 +872,21 @@ void GPUBruteForceSolver::solve(
 
     size_t active_bytes = static_cast<size_t>(global_num_words) * sizeof(uint32_t);
     CUDA_CHECK(cudaMemcpyAsync(
-        d_active,
-        h_active_pinned,
+        ctx.d_active,
+        ctx.h_active_pinned,
         active_bytes,
         cudaMemcpyHostToDevice,
-        g_stream
+        ctx.stream
     ));
 
-    solve_depth2_fast_kernel<<<global_num_candidates, 256, 0, g_stream>>>(
+    solve_depth2_fast_kernel<<<global_num_candidates, 256, 0, ctx.stream>>>(
         d_candidate_masks,
         d_class_masks,
-        d_active,
+        ctx.d_active,
         global_num_candidates,
         global_num_words,
         global_num_classes,
-        d_err, d_bL, d_bR, d_leafs
+        ctx.d_err, ctx.d_bL, ctx.d_bR, ctx.d_leafs
     );
     CUDA_CHECK(cudaGetLastError());
 
@@ -873,15 +894,15 @@ void GPUBruteForceSolver::solve(
     int best_idx = -1;
     if (global_num_candidates > 0) {
         int threads = 256;
-        int blocks = (global_num_candidates + threads - 1) / threads;
+        int blocks = ctx.blocks_for_reduce;
 
-        reduce_best_stage1<<<blocks, threads, threads * sizeof(BestPack), g_stream>>>(
-            d_err,
-            d_bL,
-            d_bR,
-            d_leafs,
+        reduce_best_stage1<<<blocks, threads, threads * sizeof(BestPack), ctx.stream>>>(
+            ctx.d_err,
+            ctx.d_bL,
+            ctx.d_bR,
+            ctx.d_leafs,
             global_num_candidates,
-            d_block_best
+            ctx.d_block_best
         );
         CUDA_CHECK(cudaGetLastError());
 
@@ -891,23 +912,23 @@ void GPUBruteForceSolver::solve(
             while (threads2 < blocks) threads2 <<= 1;
         }
 
-        reduce_best_stage2<<<1, threads2, threads2 * sizeof(BestPack), g_stream>>>(
-            d_block_best,
+        reduce_best_stage2<<<1, threads2, threads2 * sizeof(BestPack), ctx.stream>>>(
+            ctx.d_block_best,
             blocks,
-            d_best_one
+            ctx.d_best_one
         );
         CUDA_CHECK(cudaGetLastError());
 
         CUDA_CHECK(cudaMemcpyAsync(
-            h_best_pinned,
-            d_best_one,
+            ctx.h_best_pinned,
+            ctx.d_best_one,
             sizeof(BestPack),
             cudaMemcpyDeviceToHost,
-            g_stream
+            ctx.stream
         ));
-        CUDA_CHECK(cudaStreamSynchronize(g_stream));
+        CUDA_CHECK(cudaStreamSynchronize(ctx.stream));
 
-        BestPack best = *h_best_pinned;
+        BestPack best = *ctx.h_best_pinned;
         best_idx = (best.err == INT_MAX) ? -1 : best.idx;
         best_val = best.err;
             if (best_idx != -1) {
@@ -931,9 +952,9 @@ void GPUBruteForceSolver::solve(
                 d_candidate_masks + (best_idx * global_num_words),
                 global_num_words * sizeof(uint32_t),
                 cudaMemcpyDeviceToHost,
-                g_stream
+                ctx.stream
             ));
-            CUDA_CHECK(cudaStreamSynchronize(g_stream));
+            CUDA_CHECK(cudaStreamSynchronize(ctx.stream));
 
             if (config.print_logs) {
                 int cpuL = 0, cpuR = 0;
@@ -1019,9 +1040,9 @@ void GPUBruteForceSolver::solve(
                     d_candidate_masks + (idx * global_num_words),
                     global_num_words * sizeof(uint32_t),
                     cudaMemcpyDeviceToHost,
-                    g_stream
+                    ctx.stream
                 ));
-                CUDA_CHECK(cudaStreamSynchronize(g_stream));
+                CUDA_CHECK(cudaStreamSynchronize(ctx.stream));
                 for (int w = 0; w < global_num_words; ++w) {
                     uint32_t v = side_mask[w];
                     uint32_t s = split_mask[w];
