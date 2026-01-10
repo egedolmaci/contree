@@ -143,34 +143,31 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
         bool use_tasks = (larger_data.get_dataset_size() >= TASK_CUTOFF_SIZE &&
                           solution_configuration.max_depth >= TASK_CUTOFF_DEPTH);
 
+        // Calculate speculative upper bound for smaller subtree (same as larger, enabling parallelism)
+        int speculative_smaller_ub = solution_configuration.use_upper_bound ?
+            std::max(std::min(current_optimal_decision_tree->misclassification_score, upper_bound), interval_half_distance)
+            : current_optimal_decision_tree->misclassification_score;
+
+        const Configuration right_solution_configuration = solution_configuration.GetRightSubtreeConfig(left_solution_configuration.max_gap);
+
         if (use_tasks && omp_in_parallel()) {
-            // We're already in a parallel region (feature-level), use tasks for subtrees
+            // SPECULATIVE PARALLELISM: Launch both subtrees in parallel with same (looser) bound
+            // This trades tighter pruning for true parallelism - we do more work but finish faster
+            statistics::total_number_of_general_solver_calls += 1;
+
             #pragma omp task shared(larger_optimal_dt)
             {
                 GeneralSolver::create_optimal_decision_tree(larger_data, left_solution_configuration, larger_optimal_dt, larger_ub);
             }
-            #pragma omp taskwait  // Wait for larger subtree before computing bounds for smaller
-        } else {
-            // Sequential execution (not in parallel region, or problem too small)
-            GeneralSolver::create_optimal_decision_tree(larger_data, left_solution_configuration, larger_optimal_dt, larger_ub);
-        }
 
-        int smaller_ub = solution_configuration.use_upper_bound ? std::max(std::min(current_optimal_decision_tree->misclassification_score, upper_bound) - larger_optimal_dt->misclassification_score, interval_half_distance)
-                                        : current_optimal_decision_tree->misclassification_score;
-
-        if (smaller_ub > 0 || (smaller_ub == 0 && current_optimal_decision_tree->misclassification_score == larger_optimal_dt->misclassification_score)) {
-            statistics::total_number_of_general_solver_calls += 1;
-            const Configuration right_solution_configuration = solution_configuration.GetRightSubtreeConfig(left_solution_configuration.max_gap);
-
-            if (use_tasks && omp_in_parallel()) {
-                #pragma omp task shared(smaller_optimal_dt)
-                {
-                    GeneralSolver::create_optimal_decision_tree(smaller_data, right_solution_configuration, smaller_optimal_dt, smaller_ub);
-                }
-                #pragma omp taskwait  // Wait for smaller subtree
-            } else {
-                GeneralSolver::create_optimal_decision_tree(smaller_data, right_solution_configuration, smaller_optimal_dt, smaller_ub);
+            #pragma omp task shared(smaller_optimal_dt)
+            {
+                GeneralSolver::create_optimal_decision_tree(smaller_data, right_solution_configuration, smaller_optimal_dt, speculative_smaller_ub);
             }
+
+            #pragma omp taskwait  // Wait for BOTH subtrees to complete
+
+            // Both trees computed in parallel - process results
             RUNTIME_ASSERT(left_optimal_dt->misclassification_score >= 0, "Left tree should have non-negative misclassification score.");
             RUNTIME_ASSERT(right_optimal_dt->misclassification_score >= 0, "Right tree should have non-negative misclassification score.");
 
@@ -194,7 +191,43 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
                 }
             }
         } else {
-            smaller_optimal_dt->misclassification_score = -1;
+            // Sequential execution with tight bounds (traditional approach)
+            GeneralSolver::create_optimal_decision_tree(larger_data, left_solution_configuration, larger_optimal_dt, larger_ub);
+
+            int smaller_ub = solution_configuration.use_upper_bound ?
+                std::max(std::min(current_optimal_decision_tree->misclassification_score, upper_bound) - larger_optimal_dt->misclassification_score, interval_half_distance)
+                : current_optimal_decision_tree->misclassification_score;
+
+            if (smaller_ub > 0 || (smaller_ub == 0 && current_optimal_decision_tree->misclassification_score == larger_optimal_dt->misclassification_score)) {
+                statistics::total_number_of_general_solver_calls += 1;
+                GeneralSolver::create_optimal_decision_tree(smaller_data, right_solution_configuration, smaller_optimal_dt, smaller_ub);
+
+                // Both trees computed sequentially - process results
+                RUNTIME_ASSERT(left_optimal_dt->misclassification_score >= 0, "Left tree should have non-negative misclassification score.");
+                RUNTIME_ASSERT(right_optimal_dt->misclassification_score >= 0, "Right tree should have non-negative misclassification score.");
+
+                const int current_best_score = left_optimal_dt->misclassification_score + right_optimal_dt->misclassification_score;
+
+                if (current_best_score < current_optimal_decision_tree->misclassification_score) {
+                    RUNTIME_ASSERT(left_optimal_dt->is_initialized(), "Left tree should be initialized.");
+                    RUNTIME_ASSERT(right_optimal_dt->is_initialized(), "Right tree should be initialized.");
+
+                    current_optimal_decision_tree->misclassification_score = current_best_score;
+                    current_optimal_decision_tree->update_split(feature_index, threshold, left_optimal_dt, right_optimal_dt);
+
+                    if (current_best_score == 0) {
+                        return;
+                    }
+
+                    if (PRINT_INTERMEDIARY_TIME_SOLUTIONS && solution_configuration.is_root)  {
+                        const auto stop = std::chrono::high_resolution_clock::now();
+                        const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - starting_time);
+                        std::cout << "Time taken to get the misclassification score " << current_best_score << ": " << duration.count() / 1000.0 << " seconds" << std::endl;
+                    }
+                }
+            } else {
+                smaller_optimal_dt->misclassification_score = -1;
+            }
         }
 
         interval_pruner.add_result(mid, left_optimal_dt->misclassification_score, right_optimal_dt->misclassification_score);

@@ -1,0 +1,40 @@
+Benchmark Comparison Report
+Generated: 2026-01-09 21:53:45
+Baseline: results/cachealigned_threads.json
+Comparison: results/nowait_threads.json
+
+Loading baseline: cachealigned_threads.json
+Loading comparison: nowait_threads.json
+
+====================================================================================================
+Benchmark Comparison: cachealigned_threads.json vs nowait_threads.json
+====================================================================================================
+
+Benchmark                 Baseline Time   Comparison Time Speedup      Improvement 
+----------------------------------------------------------------------------------------------------
+bank_d3                   5.809 ms        6.651 ms          0.87x       -12.7%
+bank_d4                   5.605 ms        5.852 ms          0.96x        -4.2%
+raisin_d3                 60.342 ms       36.728 ms         1.64x        64.3%
+raisin_d4                 6.879 ms        6.283 s           0.00x       -99.9%
+wilt_d3                   22.264 ms       82.002 ms         0.27x       -72.8%
+wilt_d4                   22.015 ms       1.971 s           0.01x       -98.9%
+rice_d3                   51.583 ms       824.278 ms        0.06x       -93.7%
+rice_d4                   22.101 ms       23.415 ms         0.94x        -5.6%
+segment_d3                603.374 ms      543.147 ms        1.11x        11.1%
+segment_d4                55.847 s        36.265 s          1.54x        54.0%
+bidding_d3                42.854 ms       93.425 ms         0.46x       -54.1%
+bidding_d4                35.186 ms       1.709 s           0.02x       -97.9%
+fault_d3                  11.980 s        7.471 s           1.60x        60.4%
+fault_d4                  69.171 s        14.503 s          4.77x       376.9%
+page_d3                   43.412 ms       373.481 ms        0.12x       -88.4%
+page_d4                   40.077 ms       19.356 s          0.00x       -99.8%
+----------------------------------------------------------------------------------------------------
+AVERAGE                                                     0.90x       -10.1%
+====================================================================================================
+
+Summary:
+  • Total benchmarks compared: 16
+  • Average speedup: 0.90x
+  • Average improvement: -10.1%
+  • Overall: nowait_threads.json is SLOWER (1.11x slowdown)
+
