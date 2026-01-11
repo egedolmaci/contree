@@ -1,5 +1,5 @@
 #include "specialized_solver.h"
-
+#include <openmp.h>
 class Depth1ScoreHelper {
 public:
     Depth1ScoreHelper(const int size, const int CLASS_NUMBER)
@@ -37,15 +37,77 @@ public:
     std::vector<int> current_label_frequency;
 };
 
-void SpecializedSolver::create_optimal_decision_tree(const Dataview& dataview, const Configuration& solution_configuration, std::shared_ptr<Tree>& current_optimal_decision_tree, int upper_bound) {
-    for (int feature_index = 0; feature_index < dataview.get_feature_number(); feature_index++) {
-        create_optimal_decision_tree(dataview, solution_configuration, feature_index, current_optimal_decision_tree, std::min(upper_bound, current_optimal_decision_tree->misclassification_score));
+void SpecializedSolver::create_optimal_decision_tree(
+    const Dataview& dataview,
+    const Configuration& solution_configuration,
+    std::shared_ptr<Tree>& current_optimal_decision_tree,
+    int upper_bound)
+{
+    const int F = dataview.get_feature_number();
+    if (F <= 0) return;
 
-        if (current_optimal_decision_tree->misclassification_score <= solution_configuration.max_gap) {
-            return;
+    if (current_optimal_decision_tree->misclassification_score <= solution_configuration.max_gap) {
+        return;
+    }
+
+#ifdef _OPENMP
+    #include <atomic>
+    std::atomic<int> best_score(current_optimal_decision_tree->misclassification_score);
+    std::atomic<bool> should_terminate(false);
+
+    #pragma omp parallel if(F > 1)
+    {
+        // thread-local best tree
+        std::shared_ptr<Tree> thread_best = std::make_shared<Tree>(-1, best_score.load(std::memory_order_relaxed));
+
+        #pragma omp for schedule(dynamic) nowait
+        for (int feature_index = 0; feature_index < F; ++feature_index) {
+
+            if (should_terminate.load(std::memory_order_relaxed)) continue;
+
+            // snapshot global best (lock-free)
+            const int snapshot_best = best_score.load(std::memory_order_relaxed);
+            const int local_ub = std::min(upper_bound, snapshot_best);
+
+            // IMPORTANT: compute into a thread-local tree (no races)
+            std::shared_ptr<Tree> feature_tree = std::make_shared<Tree>(-1, local_ub);
+            create_optimal_decision_tree(dataview, solution_configuration, feature_index, feature_tree, local_ub);
+
+            if (feature_tree->misclassification_score < thread_best->misclassification_score) {
+                thread_best = feature_tree;
+            }
+
+            // if we have a potential improvement, try to publish it
+            if (thread_best->misclassification_score < snapshot_best) {
+                #pragma omp critical(update_tree)
+                {
+                    if (thread_best->misclassification_score < current_optimal_decision_tree->misclassification_score) {
+                        *current_optimal_decision_tree = *thread_best;
+                        best_score.store(current_optimal_decision_tree->misclassification_score, std::memory_order_relaxed);
+
+                        // reset thread_best to current global bound (helps pruning in later iterations)
+                        thread_best = std::make_shared<Tree>(-1, current_optimal_decision_tree->misclassification_score);
+
+                        if (current_optimal_decision_tree->misclassification_score <= solution_configuration.max_gap) {
+                            should_terminate.store(true, std::memory_order_relaxed);
+                        }
+                    }
+                }
+            }
         }
     }
+#else
+    // No OpenMP: keep original sequential behavior
+    for (int feature_index = 0; feature_index < F; feature_index++) {
+        create_optimal_decision_tree(dataview, solution_configuration, feature_index,
+            current_optimal_decision_tree,
+            std::min(upper_bound, current_optimal_decision_tree->misclassification_score));
+
+        if (current_optimal_decision_tree->misclassification_score <= solution_configuration.max_gap) return;
+    }
+#endif
 }
+
 
 void SpecializedSolver::get_best_left_right_scores(const Dataview& dataview, int feature_index, int split_point, float threshold, std::shared_ptr<Tree> &left_optimal_dt, std::shared_ptr<Tree> &right_optimal_dt, int upper_bound) {
     const auto& split_feature = dataview.get_sorted_dataset_feature(feature_index);
