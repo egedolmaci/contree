@@ -24,15 +24,11 @@
   // Small and medium datasets only (8 total)
   static const DatasetConfig datasets[] = {
       // Small datasets
-      {"bank", "../../datasets/bank.txt"},           // 108 KB
+      {"avila", "../../datasets/avila.txt"},           // 518 KB
       {"raisin", "../../datasets/raisin.txt"},       // 123 KB
-      {"wilt", "../../datasets/wilt.txt"},           // 486 KB
-      {"rice", "../../datasets/rice.txt"},           // 518 KB
       // Medium datasets
+      {"bean", "../../datasets/bean.txt"},         // 938 KB
       {"segment", "../../datasets/segment.txt"},     // 754 KB
-      {"bidding", "../../datasets/bidding.txt"},     // 861 KB
-      {"fault", "../../datasets/fault.txt"},         // 938 KB
-      {"page", "../../datasets/page.txt"},           // 1.1 MB
   };
 
   struct RunResult {
@@ -41,7 +37,7 @@
       int instance_count;
   };
 
-  constexpr double kBenchmarkTimeLimitSeconds = 120.0;
+  constexpr double kBenchmarkTimeLimitSeconds = 300;
 
   static Configuration MakeConfig(int max_depth, int max_gap, bool use_gpu) {
       Configuration config;
@@ -106,25 +102,16 @@
 
   BENCHMARK(BM_ConTree_CPU)
       // Small datasets
-      ->Args({0, 3})  // bank, depth 3
-      ->Args({0, 4})  // bank, depth 4
-      ->Args({1, 3})  // raisin, depth 3
+      ->Args({0, 3})  // avila, depth 3
       ->Args({1, 4})  // raisin, depth 4
-      ->Args({2, 3})  // wilt, depth 3
-      ->Args({2, 4})  // wilt, depth 4
-      ->Args({3, 3})  // rice, depth 3
-      ->Args({3, 4})  // rice, depth 4
       // Medium datasets
-      ->Args({4, 3})  // segment, depth 3
-      ->Args({4, 4})  // segment, depth 4
-      ->Args({5, 3})  // bidding, depth 3
-      ->Args({5, 4})  // bidding, depth 4
-      ->Args({6, 3})  // fault, depth 3
-      ->Args({6, 4})  // fault, depth 4
-      ->Args({7, 3})  // page, depth 3
-      ->Args({7, 4})  // page, depth 4
-      ->Unit(benchmark::kSecond);
+      ->Args({2, 3})  // bean, depth 3
+      ->Args({3, 4})  // segment, depth 4
 
+      ->Unit(benchmark::kSecond);
+// avila bean raisin segment
+// 24 61 65 191
+// 3 3 4 4
 #ifdef USE_CUDA
   static void BM_ConTree_GPU(benchmark::State& state) {
       // Extract parameters
