@@ -1,4 +1,5 @@
 #include "specialized_solver.h"
+#include <omp.h>
 
 class Depth1ScoreHelper {
 public:
@@ -38,11 +39,42 @@ public:
 };
 
 void SpecializedSolver::create_optimal_decision_tree(const Dataview& dataview, const Configuration& solution_configuration, std::shared_ptr<Tree>& current_optimal_decision_tree, int upper_bound) {
-    for (int feature_index = 0; feature_index < dataview.get_feature_number(); feature_index++) {
-        create_optimal_decision_tree(dataview, solution_configuration, feature_index, current_optimal_decision_tree, std::min(upper_bound, current_optimal_decision_tree->misclassification_score));
+    int initial_best_score = current_optimal_decision_tree->misclassification_score;
+    bool should_terminate = false;
 
-        if (current_optimal_decision_tree->misclassification_score <= solution_configuration.max_gap) {
-            return;
+    #pragma omp parallel if(dataview.get_feature_number() > 1)
+    {
+        std::shared_ptr<Tree> thread_local_best = std::make_shared<Tree>(-1, initial_best_score);
+
+        #pragma omp for schedule(dynamic) nowait
+        for (int feature_index = 0; feature_index < dataview.get_feature_number(); feature_index++) {
+            #pragma omp flush(should_terminate)
+            if (should_terminate) continue;
+
+            int current_upper_bound;
+            #pragma omp critical(update_specialized_tree)
+            {
+                current_upper_bound = std::min(upper_bound, current_optimal_decision_tree->misclassification_score);
+            }
+
+            std::shared_ptr<Tree> feature_tree = std::make_shared<Tree>(-1, current_upper_bound);
+            create_optimal_decision_tree(dataview, solution_configuration, feature_index, feature_tree, current_upper_bound);
+
+            if (feature_tree->misclassification_score < thread_local_best->misclassification_score) {
+                thread_local_best = feature_tree;
+            }
+
+            #pragma omp critical(update_specialized_tree)
+            {
+                if (thread_local_best->misclassification_score < current_optimal_decision_tree->misclassification_score) {
+                    *current_optimal_decision_tree = *thread_local_best;
+                    thread_local_best = std::make_shared<Tree>(-1, current_optimal_decision_tree->misclassification_score);
+                }
+
+                if (current_optimal_decision_tree->misclassification_score <= solution_configuration.max_gap) {
+                    should_terminate = true;
+                }
+            }
         }
     }
 }
