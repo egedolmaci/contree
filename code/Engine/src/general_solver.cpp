@@ -282,9 +282,6 @@ void GeneralSolver::calculate_leaf_node(int class_number, int instance_number, c
 }
 
 */
-#include <cstdint>
-#include <omp.h>
-
 void GeneralSolver::calculate_leaf_node(
     int class_number,
     int instance_number,
