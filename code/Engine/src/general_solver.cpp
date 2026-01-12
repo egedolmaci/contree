@@ -261,7 +261,7 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
         }
     }
 }
-
+/*
 void GeneralSolver::calculate_leaf_node(int class_number, int instance_number, const std::vector<int>& label_frequency, std::shared_ptr<Tree>& current_optimal_decision_tree) {
     int best_classification_score = -1;
     int best_classification_label = -1;
@@ -275,6 +275,40 @@ void GeneralSolver::calculate_leaf_node(int class_number, int instance_number, c
 
     const int best_misclassification_score = instance_number - best_classification_score;
 
+    if (best_misclassification_score < current_optimal_decision_tree->misclassification_score) {
+        RUNTIME_ASSERT(best_classification_label != -1, "Cannot assign negative leaf label.");
+        current_optimal_decision_tree->make_leaf(best_classification_label, best_misclassification_score);
+    }
+}
+
+*/
+
+void GeneralSolver::calculate_leaf_node(
+    int class_number,
+    int instance_number,
+    const std::vector<int>& label_frequency,
+    std::shared_ptr<Tree>& current_optimal_decision_tree)
+{
+    int best_classification_score = -1;
+    int best_classification_label = -1;
+
+    std::int64_t best_packed = (std::int64_t(-1) << 32) | std::uint32_t(0);
+
+    #pragma omp parallel for reduction(max:best_packed)
+    for (int label = 0; label < class_number; ++label) {
+        const int score = label_frequency[label];
+        const std::uint32_t tie = 0xFFFFFFFFu - static_cast<std::uint32_t>(label);
+
+        const std::int64_t packed =
+            (static_cast<std::int64_t>(score) << 32) | static_cast<std::int64_t>(tie);
+
+        if (packed > best_packed) best_packed = packed;
+    }
+
+    best_classification_score = static_cast<int>(best_packed >> 32);
+    best_classification_label = static_cast<int>(0xFFFFFFFFu - static_cast<std::uint32_t>(best_packed));
+
+    const int best_misclassification_score = instance_number - best_classification_score;
     if (best_misclassification_score < current_optimal_decision_tree->misclassification_score) {
         RUNTIME_ASSERT(best_classification_label != -1, "Cannot assign negative leaf label.");
         current_optimal_decision_tree->make_leaf(best_classification_label, best_misclassification_score);
