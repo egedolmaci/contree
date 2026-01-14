@@ -20,7 +20,6 @@ else()
 endif()
 
 if (CMAKE_BUILD_TYPE STREQUAL Release)
-    
     if (MSVC)
         message(STATUS "Using MSVC compiler")
         add_compile_options(/Ot)
@@ -29,10 +28,11 @@ if (CMAKE_BUILD_TYPE STREQUAL Release)
         add_compile_options(-march=native)
         add_compile_options(-funroll-loops)
     endif()
-
 endif()
-   
-    
+
+# --- NEW: Find OpenMP Package ---
+find_package(OpenMP REQUIRED)
+# --------------------------------
 
 # Gather source files
 file(GLOB SRC_FILES
@@ -55,16 +55,21 @@ include_directories(${INCLUDE_DIRS})
 # Create the executable
 add_executable(ConTree ${SRC_FILES})
 
+# --- NEW: Link OpenMP ---
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(ConTree PUBLIC OpenMP::OpenMP_CXX)
+endif()
+# ------------------------
+
 # Set target properties based on build type
 if (CMAKE_BUILD_TYPE STREQUAL Release)        
     if( ipo_supported )
-	    message(STATUS "IPO / LTO enabled")    
+        message(STATUS "IPO / LTO enabled")    
         set_property(TARGET ConTree PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
     else()
          message(STATUS "IPO / LTO not supported: <${ipo_error}>")
     endif()
 else() 
-    
     # enable runtime profilling (with MSVC)
     if (MSVC)
         message(STATUS "Enabling profiler")    
@@ -73,4 +78,3 @@ else()
         message(STATUS "No profiler")
     endif()
 endif()
-

@@ -78,7 +78,7 @@ The compiler must support the C++17 standard
 ### Running
 After ConTree is built, the following command can be used (for example):
 ```sh
-./ConTree -file ../datasets/bank.txt -max-depth 3
+./build/ConTree -file ../datasets/bank.txt -max-depth 3
 ```
 
 Run the program without any parameters to see a full list of the available parameters.

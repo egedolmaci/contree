@@ -1,7 +1,9 @@
 #include <chrono>
 #include <climits>
 #include <iomanip>
+#include <iomanip>
 #include <iostream>
+#include <omp.h>
 
 #include "cache.h"
 #include "configuration.h"
@@ -65,6 +67,7 @@ void create_optimal_decision_tree(std::string file_name, int run_number, Configu
 }
 
 int main(int argc, char *argv[]) {
+    omp_set_max_active_levels(1);
     ParameterHandler parameters = ParameterHandler::DefineParameters();
 
     bool verbose = true;
@@ -74,6 +77,10 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
     parameters.ParseCommandLineArguments(argc, argv);
+
+    // Enable nested parallelism for task-based parallelism
+    omp_set_nested(1);
+    omp_set_max_active_levels(4);
 
     Configuration config;
     const std::string file = parameters.GetStringParameter("file");
