@@ -85,4 +85,6 @@ Running: fault.txt depth=4 threads=5 ... DONE (578.4200 s)
 Running: fault.txt depth=4 threads=6 ... DONE (599.3540 s)
 Running: fault.txt depth=4 threads=7 ... DONE (599.2160 s)
 Running: fault.txt depth=4 threads=8 ... DONE (599.5740 s)
-Running: fault.txt depth=4 threads=9 ... 
+Running: fault.txt depth=4 threads=9 ... DONE (599.8660 s)
+Running: fault.txt depth=4 threads=10 ... DONE (599.8720 s)
+Running: fault.txt depth=4 threads=15 ... 
