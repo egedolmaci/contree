@@ -1,30 +1,17 @@
 #!/bin/bash
 
-OUTPUT_FILE="benchmark_full.csv"
+OUTPUT_FILE="benchmark_for_excel.csv"
 
 DATASETS=(
     "avila.txt"
-    "bank.txt"
     "bean.txt"
-    "bidding.txt"
-    "eeg.txt"
-    "fault.txt"
-    "htru.txt"
-    "magic.txt"
-    "occupancy.txt"
-    "page.txt"
-    "raisin.txt"
-    "rice.txt"
-    "room.txt"
-    "segment.txt"
-    "skin.txt"
-    "wilt.txt"
 )
 
-DEPTHS=(2 3 4 5)
-MODES=(0 1) # 0 = CPU, 1 = GPU
+DEPTHS=(3)
+MODES=(1) # 0 = CPU, 1 = GPU
+THREADS=(1)
 
-echo "Dataset,Depth,Mode,Time(s),Accuracy,Misclassification,TreeStructure" > "$OUTPUT_FILE"
+echo "Dataset,Depth,Mode,Threads,Time(s),Accuracy,Misclassification,TreeStructure" > "$OUTPUT_FILE"
 
 echo "========================================================"
 echo "Full Benchmark (Tree Capture) starting... Output: $OUTPUT_FILE"
@@ -36,43 +23,53 @@ for depth in "${DEPTHS[@]}"; do
     echo "### PROCESSING DEPTH: $depth ###"
     echo "#############################################"
 
-    for dataset in "${DATASETS[@]}"; do
-        filepath="../../datasets/$dataset"
+    for threads in "${THREADS[@]}"; do
+        echo ""
+        echo "#############################################"
+        echo "### PROCESSING OMP THREADS: $threads ###"
+        echo "#############################################"
 
-        if [ ! -f "$filepath" ]; then
-            echo "WARNING: $filepath not found, skipping..."
-            continue
-        fi
+        for dataset in "${DATASETS[@]}"; do
+            filepath="../../datasets/$dataset"
 
-        for mode in "${MODES[@]}"; do
-            if [ "$mode" -eq 0 ]; then
-                mode_name="CPU"
-            else
-                mode_name="GPU"
+            if [ ! -f "$filepath" ]; then
+                echo "WARNING: $filepath not found, skipping..."
+                continue
             fi
 
-            echo -n "Running: $dataset (Depth $depth) [$mode_name]... "
+            for mode in "${MODES[@]}"; do
+                if [ "$mode" -eq 0 ]; then
+                    mode_name="CPU"
+                else
+                    mode_name="GPU"
+                fi
 
-            output=$(../../build/ConTree -file "$filepath" -max-depth "$depth" -use-gpu-bruteforce "$mode" 2>&1)
+                echo -n "Running: $dataset (Depth $depth) [$mode_name] [OMP $threads]... "
 
-            time_val=$(echo "$output" | grep "Average time taken" | awk '{print $9}')
-            acc_val=$(echo "$output" | grep "Accuracy:" | awk '{print $2}')
-            score_val=$(echo "$output" | grep "Misclassification score:" | awk '{print $3}')
-            tree_val=$(echo "$output" | grep "Optimal tree:" | sed 's/Optimal tree: //')
+                output=$(CUDA_VISIBLE_DEVICES=0 OMP_NUM_THREADS="$threads" ../../build/ConTree \
+                    -file "$filepath" \
+                    -max-depth "$depth" \
+                    -use-gpu-bruteforce "$mode" 2>&1)
 
-            if [ -z "$time_val" ]; then
-                time_val="ERROR"
-                acc_val="ERROR"
-                score_val="ERROR"
-                tree_val="ERROR"
-                echo "FAILED!"
-            else
-                echo "DONE ($time_val s)"
-            fi
+                time_val=$(echo "$output" | grep "Average time taken" | awk '{print $9}')
+                acc_val=$(echo "$output" | grep "Accuracy:" | awk '{print $2}')
+                score_val=$(echo "$output" | grep "Misclassification score:" | awk '{print $3}')
+                tree_val=$(echo "$output" | grep "Optimal tree:" | sed 's/Optimal tree: //')
 
-            echo "$dataset,$depth,$mode_name,$time_val,$acc_val,$score_val,\"$tree_val\"" >> "$OUTPUT_FILE"
+                if [ -z "$time_val" ]; then
+                    time_val="ERROR"
+                    acc_val="ERROR"
+                    score_val="ERROR"
+                    tree_val="ERROR"
+                    echo "FAILED!"
+                else
+                    echo "DONE ($time_val s)"
+                fi
 
-            sleep 0.5
+                echo "$dataset,$depth,$mode_name,$threads,$time_val,$acc_val,$score_val,\"$tree_val\"" >> "$OUTPUT_FILE"
+
+                sleep 0.5
+            done
         done
     done
 done

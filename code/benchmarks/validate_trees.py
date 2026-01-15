@@ -102,13 +102,13 @@ def main() -> int:
         return 1
 
     results = pd.read_csv(csv_path)
-    required = {"Dataset", "Depth", "Mode", "Misclassification", "TreeStructure"}
+    required = {"Dataset", "Depth", "Mode", "Threads", "Misclassification", "TreeStructure"}
     missing = required - set(results.columns)
     if missing:
         print(f"Missing columns: {', '.join(sorted(missing))}")
         return 1
 
-    header = f"{'DATASET':<12} | {'D':<2} | {'MODE':<3} | {'REPORT':<6} | {'CALC':<6} | {'STATUS'} | {'NOTE'}"
+    header = f"{'DATASET':<12} | {'D':<2} | {'MODE':<3} | {'THR':<3} | {'REPORT':<6} | {'CALC':<6} | {'STATUS'} | {'NOTE'}"
     print(header)
     print("-" * len(header))
 
@@ -150,7 +150,8 @@ def main() -> int:
         elif best_diff < 10:
             status = "⚠️ CLOSE"
 
-        print(f"{dataset:<12} | {int(row['Depth']):<2} | {row['Mode']:<3} | {int(rep_score):<6} | {best_score:<6} | {status} | Loc:{final_loc}")
+        threads = row["Threads"]
+        print(f"{dataset:<12} | {int(row['Depth']):<2} | {row['Mode']:<3} | {int(threads):<3} | {int(rep_score):<6} | {best_score:<6} | {status} | Loc:{final_loc}")
 
     return 0
 

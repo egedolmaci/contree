@@ -1,0 +1,18 @@
+nohup: ignoring input
+========================================================
+Full Benchmark (Tree Capture) starting... Output: benchmark_for_excel.csv
+========================================================
+
+#############################################
+### PROCESSING DEPTH: 3 ###
+#############################################
+
+#############################################
+### PROCESSING OMP THREADS: 1 ###
+#############################################
+Running: avila.txt (Depth 3) [GPU] [OMP 1]... DONE (514.8950 s)
+Running: bean.txt (Depth 3) [GPU] [OMP 1]... DONE (600.5790 s)
+
+========================================================
+Benchmark complete!
+Results: benchmark_for_excel.csv

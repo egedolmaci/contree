@@ -75,6 +75,8 @@ struct GPUThreadContext {
     BestPack* h_best_pinned = nullptr;
 
     int blocks_for_reduce = 0;
+    int num_words = 0;
+    int num_candidates = 0;
     bool allocated = false;
 };
 
@@ -148,7 +150,12 @@ static void free_thread_context(GPUThreadContext& ctx) {
 }
 
 static void EnsureThreadContextAllocated() {
-    if (tls.allocated) return;
+    if (tls.allocated) {
+        if (tls.num_words == global_num_words && tls.num_candidates == global_num_candidates) {
+            return;
+        }
+        free_thread_context(tls);
+    }
     if (!is_initialized.load()) {
         std::fprintf(stderr, "[GPU ERROR] Initialize must be called before solve().\n");
         std::abort();
@@ -180,6 +187,8 @@ static void EnsureThreadContextAllocated() {
         cudaHostAllocDefault
     ));
 
+    tls.num_words = global_num_words;
+    tls.num_candidates = global_num_candidates;
     tls.allocated = true;
 }
 

@@ -1,4 +1,5 @@
-  #include <benchmark/benchmark.h>
+#include <benchmark/benchmark.h>
+#include <omp.h>
 
   #include "configuration.h"
   #include "dataset.h"
@@ -81,6 +82,16 @@
 
   // Parameterized benchmark
   static void BM_ConTree_CPU(benchmark::State& state) {
+      static bool printed_threads = false;
+      if (!printed_threads) {
+          #pragma omp parallel
+          {
+              #pragma omp single
+              std::cout << "[BENCH] OMP threads = " << omp_get_num_threads()
+                        << " / procs = " << omp_get_num_procs() << "\n";
+          }
+          printed_threads = true;
+      }
       // Extract parameters
       int dataset_idx = state.range(0);
       int depth = state.range(1);
@@ -127,6 +138,16 @@
 
 #ifdef USE_CUDA
   static void BM_ConTree_GPU(benchmark::State& state) {
+      static bool printed_threads = false;
+      if (!printed_threads) {
+          #pragma omp parallel
+          {
+              #pragma omp single
+              std::cout << "[BENCH] OMP threads = " << omp_get_num_threads()
+                        << " / procs = " << omp_get_num_procs() << "\n";
+          }
+          printed_threads = true;
+      }
       // Extract parameters
       int dataset_idx = state.range(0);
       int depth = state.range(1);

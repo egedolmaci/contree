@@ -1,0 +1,74 @@
+{
+  "context": {
+    "date": "2026-01-11T17:30:44+03:00",
+    "host_name": "typhoon-i",
+    "executable": "../../build/contree_benchmarks",
+    "num_cpus": 64,
+    "mhz_per_cpu": 3400,
+    "cpu_scaling_enabled": true,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 49152,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 2097152,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 31457280,
+        "num_sharing": 32
+      }
+    ],
+    "load_avg": [1.79004,1.92432,1.49268],
+    "library_build_type": "release"
+  },
+  "benchmarks": [
+    {
+      "name": "BM_ConTree_GPU/0/3",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_ConTree_GPU/0/3",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 35,
+      "real_time": 1.9967660467539516e-02,
+      "cpu_time": 1.9965342942857140e-02,
+      "time_unit": "s",
+      "accuracy": 9.8323615160349853e-01,
+      "instances": 1.3720000000000000e+03,
+      "misclass": 2.3000000000000000e+01,
+      "label": "bank_d3_gpu"
+    },
+    {
+      "name": "BM_ConTree_GPU/0/4",
+      "family_index": 0,
+      "per_family_instance_index": 1,
+      "run_name": "BM_ConTree_GPU/0/4",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 9,
+      "real_time": 7.7576032736235201e-02,
+      "cpu_time": 7.7531006444444481e-02,
+      "time_unit": "s",
+      "accuracy": 9.9927113702623904e-01,
+      "instances": 1.3720000000000000e+03,
+      "misclass": 1.0000000000000000e+00,
+      "label": "bank_d4_gpu"
+    }
