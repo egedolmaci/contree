@@ -1,3 +1,4 @@
+#include <omp.h>
 #include "dataview.h"
 
 Dataview::Dataview(Dataset* sorted_dataset, Dataset* unsorted_dataset, int class_number, const bool sort_by_gini_index) 
@@ -164,7 +165,8 @@ void Dataview::split_data_points(const Dataview& current_dataview, int feature_i
   
     int feature_no = 0;
 
-    for (const auto& it : current_dataview.feature_data) {
+    for (int feature_no = 0; feature_no < current_dataview.feature_data.size(); feature_no++) {
+        const auto& it = current_dataview.feature_data[feature_no];
         auto& left_split_feature_data = left_dataview.feature_data[feature_no];
         left_split_feature_data.resize(left_size);
 
@@ -267,8 +269,6 @@ void Dataview::split_data_points(const Dataview& current_dataview, int feature_i
 
         left_dataview.gini_values[feature_no] = {left_best_gini, feature_no};
         right_dataview.gini_values[feature_no] = {right_best_gini, feature_no};
-
-        feature_no++;
     }
 
     left_dataview.unsorted_dataset = current_dataview.unsorted_dataset;

@@ -6,6 +6,7 @@
 #include <queue>
 #include <vector>
 
+#include "cache.h"
 #include "dataset.h"
 #include "dataview.h"
 #include "general_solver.h"
@@ -27,8 +28,7 @@ public:
      * @param current_optimal_tree The current optimal tree.
      * @param upper_bound The upper bound for the search space.
      */
-    static void create_optimal_decision_tree(const Dataview& dataview, const Configuration& solution_config, std::shared_ptr<Tree>& current_optimal_tree, int upper_bound);
-
+static void create_optimal_decision_tree(const Dataview& dataview, const Configuration& solution_configuration, std::shared_ptr<Tree>& current_optimal_decision_tree, int upper_bound);
 private:
     /**
      * Creates the optimal decision tree for the given dataset, solution configuration and the first feature to split on.
@@ -41,8 +41,7 @@ private:
      * @param current_optimal_tree The current optimal tree.
      * @param upper_bound The upper bound for the search space.
      */
-    static void create_optimal_decision_tree(const Dataview& dataview, const Configuration& solution_config, int feature_index, std::shared_ptr<Tree>& current_optimal_tree, int upper_bound);
-
+static void create_optimal_decision_tree(const Dataview& dataview, const Configuration& solution_configuration, int feature_index, std::shared_ptr<Tree> &current_optimal_decision_tree, int upper_bound, std::atomic<int>& parent_node_best_score);
     /**
      * Calculates the misclassification score if the current node is a leaf node.
      * 
@@ -54,7 +53,6 @@ private:
      * @param right_optimal_tree The optimal tree for the right split.
      * @param upper_bound The upper bound for the scores.
      */
-    static void calculate_leaf_node(int class_number, int instance_number, const std::vector<int>& label_frequency, std::shared_ptr<Tree>& current_optimal_decision_tree);
-};
+static void calculate_leaf_node(int class_number, int instance_number, const std::vector<int>& label_frequency, std::shared_ptr<Tree>& current_optimal_decision_tree);};
 
 #endif // GENERAL_SOLVER_H

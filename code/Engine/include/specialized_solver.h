@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <queue>
+#include <atomic>
 
 #include "configuration.h"
 #include "dataset.h"
@@ -74,7 +75,7 @@ private:
     static void process_depth_one_feature(const Dataview& dataview,
         const int feature_index, const int split_point, const int current_feature_index, const int split_index,
         Depth1ScoreHelper& left_tree, Depth1ScoreHelper& right_tree,
-        const std::vector<int>& split_feature_split_indices, int& upper_bound);
+        const std::vector<int>& split_feature_split_indices, std::atomic<int>& upper_bound);
 };
 
 #endif // SPECIALIZED_SOLVER_H

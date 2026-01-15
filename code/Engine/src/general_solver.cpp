@@ -1,97 +1,68 @@
 #include "general_solver.h"
 #include <omp.h>
-#ifdef USE_CUDA
-#include "GPUBruteForceSolver.h"
-#endif
+#include <atomic>
+#include <algorithm> // Required for std::min
+#include <climits>   // Required for INT_MAX
 
 void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const Configuration& solution_configuration, std::shared_ptr<Tree>& current_optimal_decision_tree, int upper_bound) {
-    if (current_optimal_decision_tree->misclassification_score == 0 || dataview.get_dataset_size() == 0) {
+    if (current_optimal_decision_tree->misclassification_score == 0 || dataview.get_dataset_size() == 0) return;
+
+    // Cache lookup
+    if (Cache::global_cache.is_cached(dataview, solution_configuration.max_depth)) {
+        current_optimal_decision_tree = Cache::global_cache.retrieve(dataview, solution_configuration.max_depth);
         return;
     }
 
     calculate_leaf_node(dataview.get_class_number(), dataview.get_dataset_size(), dataview.get_label_frequency(), current_optimal_decision_tree);
 
-    if (solution_configuration.max_depth == 0) {
-        return;
-    }
+    if (solution_configuration.max_depth == 0) return;
+    if (current_optimal_decision_tree->misclassification_score <= solution_configuration.max_gap || dataview.get_dataset_size() == 1) return;
 
-    if (current_optimal_decision_tree->misclassification_score <= solution_configuration.max_gap || dataview.get_dataset_size() == 1) {
-        return;
-    }
-
-#ifdef USE_CUDA
-    if (solution_configuration.use_gpu_bruteforce && solution_configuration.max_depth <= 2) {
-        GPUBruteForceSolver::solve(dataview, solution_configuration, current_optimal_decision_tree);
-        return;
-    }
-#endif
-
+    // Handoff to SpecializedSolver for depth 2
     if (solution_configuration.max_depth == 2) {
         SpecializedSolver::create_optimal_decision_tree(dataview, solution_configuration, current_optimal_decision_tree, std::min(upper_bound, current_optimal_decision_tree->misclassification_score));
         return;
     }
 
-    // Pre-initialize bitset to avoid race condition
-    dataview.get_bitset();
+    // Local atomic to synchronize threads ONLY for this specific node
+    std::atomic<int> node_best_score(current_optimal_decision_tree->misclassification_score);
 
-    // Store initial best score
-    int initial_best_score = current_optimal_decision_tree->misclassification_score;
-    bool should_terminate = false;
+    int num_features = dataview.get_feature_number();
+    
+    #pragma omp parallel for schedule(dynamic) if(dataview.get_dataset_size() > 500)
+    for (int feature_nr = 0; feature_nr < num_features; feature_nr++) {
+        // Early exit if optimal found
+        int current_best = node_best_score.load(std::memory_order_relaxed);
+        if (current_best == 0) continue;
+        if (!solution_configuration.stopwatch.IsWithinTimeLimit()) continue;
 
-    #pragma omp parallel if(dataview.get_feature_number() > 1)
-    {
-        // Thread-local best tree
-        std::shared_ptr<Tree> thread_local_best = std::make_shared<Tree>(-1, initial_best_score);
+        int feature_index = dataview.gini_values[feature_nr].second;
 
-        #pragma omp for schedule(dynamic) nowait
-        for (int feature_nr = 0; feature_nr < dataview.get_feature_number(); feature_nr++) {
-            // Check for early termination
-            #pragma omp flush(should_terminate)
-            if (should_terminate) continue;
+        // [FIX] Initialize local tree with INT_MAX so any valid solution overwrites it.
+        // We rely on 'upper_bound' (passed below) to handle the pruning constraints.
+        std::shared_ptr<Tree> local_tree = std::make_shared<Tree>(-1, INT_MAX);
 
-            int feature_index = dataview.gini_values[feature_nr].second;
+        create_optimal_decision_tree(dataview, solution_configuration, feature_index, local_tree, std::min(upper_bound, current_best), node_best_score);
 
-            // Get current best upper bound
-            int current_upper_bound;
+        // [FIX] Only update if local_tree was actually populated (score < INT_MAX)
+        if (local_tree->misclassification_score < INT_MAX && 
+            local_tree->misclassification_score <= node_best_score.load(std::memory_order_relaxed)) {
             #pragma omp critical(update_tree)
             {
-                current_upper_bound = std::min(upper_bound, current_optimal_decision_tree->misclassification_score);
-            }
-
-            // Solve for this feature
-            std::shared_ptr<Tree> feature_tree = std::make_shared<Tree>(-1, current_upper_bound);
-            create_optimal_decision_tree(dataview, solution_configuration, feature_index, feature_tree, current_upper_bound);
-
-            // Update thread-local best
-            if (feature_tree->misclassification_score < thread_local_best->misclassification_score) {
-                thread_local_best = feature_tree;
-            }
-
-            // Update global best if improved
-            #pragma omp critical(update_tree)
-            {
-                if (thread_local_best->misclassification_score < current_optimal_decision_tree->misclassification_score) {
-                    *current_optimal_decision_tree = *thread_local_best;
-                    thread_local_best = std::make_shared<Tree>(-1, current_optimal_decision_tree->misclassification_score);
-                }
-
-                // Check termination
-                if (current_optimal_decision_tree->misclassification_score == 0 ||
-                    !solution_configuration.stopwatch.IsWithinTimeLimit()) {
-                    should_terminate = true;
+                if (local_tree->misclassification_score < current_optimal_decision_tree->misclassification_score) {
+                    current_optimal_decision_tree = local_tree;
+                    node_best_score.store(local_tree->misclassification_score, std::memory_order_relaxed);
                 }
             }
         }
     }
 
-    // Final early return check
-    if (current_optimal_decision_tree->misclassification_score == 0 ||
-        !solution_configuration.stopwatch.IsWithinTimeLimit()) {
-        return;
+    if (current_optimal_decision_tree->misclassification_score <= upper_bound) {
+        Cache::global_cache.store(dataview, solution_configuration.max_depth, current_optimal_decision_tree);
     }
 }
 
-void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const Configuration& solution_configuration, int feature_index, std::shared_ptr<Tree> &current_optimal_decision_tree, int upper_bound) {    
+void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const Configuration& solution_configuration, int feature_index, std::shared_ptr<Tree> &current_optimal_decision_tree, int upper_bound, std::atomic<int>& parent_node_best_score) {    
     const std::vector<Dataset::FeatureElement>& current_feature = dataview.get_sorted_dataset_feature(feature_index);
     
     const auto& possible_split_indices = dataview.get_possible_split_indices(feature_index);
@@ -101,17 +72,22 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
     unsearched_intervals.push({0, (int)possible_split_indices.size() - 1, -1, -1});
 
     while(!unsearched_intervals.empty()) {
+        // Pruning Logic:
+        // 1. Get the best score found by ANY sibling thread.
+        int sibling_best = parent_node_best_score.load(std::memory_order_relaxed);
+        
+        // 2. Use the tighter of (My Current Best) vs (Sibling Best) for pruning.
+        // Note: current_optimal_decision_tree->misclassification_score starts at INT_MAX, so this safely picks sibling_best initially.
+        int pruning_bound = std::min(current_optimal_decision_tree->misclassification_score, sibling_best);
+
         if (!solution_configuration.stopwatch.IsWithinTimeLimit()) return;
         auto current_interval = unsearched_intervals.front(); unsearched_intervals.pop();
 
-        // Lock-free IntervalsPruner access
-        bool should_prune = interval_pruner.subinterval_pruning(current_interval, current_optimal_decision_tree->misclassification_score);
-
-        if (should_prune) {
+        if (interval_pruner.subinterval_pruning(current_interval, pruning_bound)) {
             continue;
         }
 
-        interval_pruner.interval_shrinking(current_interval, current_optimal_decision_tree->misclassification_score);
+        interval_pruner.interval_shrinking(current_interval, pruning_bound);
         const auto& [left, right, current_left_bound, current_right_bound] = current_interval;
         if (left > right) {
             continue;
@@ -130,116 +106,95 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
         Dataview right_dataview = Dataview(dataview.get_class_number(), dataview.should_sort_by_gini_index());
         Dataview::split_data_points(dataview, feature_index, split_point, split_unique_value_index, left_dataview, right_dataview, solution_configuration.max_depth);
 
-        std::shared_ptr<Tree> left_optimal_dt  = std::make_shared<Tree>(-1, current_optimal_decision_tree->misclassification_score);
-        std::shared_ptr<Tree> right_optimal_dt = std::make_shared<Tree>(-1, current_optimal_decision_tree->misclassification_score);
+        // [FIX] Initialize children with INT_MAX.
+        // This ensures that if the recursive call finds a tree with score == pruning_bound,
+        // it is strictly less than INT_MAX, so it WILL update the pointer.
+        std::shared_ptr<Tree> left_optimal_dt  = std::make_shared<Tree>(-1, INT_MAX);
+        std::shared_ptr<Tree> right_optimal_dt = std::make_shared<Tree>(-1, INT_MAX);
 
-        // Here firstly compute the bigger dataset since it might make computing the smaller dataset obsolete
-        auto& smaller_data = (left_dataview.get_dataset_size() < right_dataview.get_dataset_size() ) ? left_dataview : right_dataview;
-        auto& larger_data  = (left_dataview.get_dataset_size()  < right_dataview.get_dataset_size() ) ? right_dataview : left_dataview;
-
-        auto& smaller_optimal_dt = (left_dataview.get_dataset_size()  < right_dataview.get_dataset_size() ) ? left_optimal_dt : right_optimal_dt;
-        auto& larger_optimal_dt  = (left_dataview.get_dataset_size()  < right_dataview.get_dataset_size() ) ? right_optimal_dt : left_optimal_dt;
-
-        int larger_ub = solution_configuration.use_upper_bound ? std::min(upper_bound, current_optimal_decision_tree->misclassification_score)
-                                       : current_optimal_decision_tree->misclassification_score;
-
-        statistics::total_number_of_general_solver_calls += 1;
-
+        // TASK-BASED PARALLELISM: Compute left and right subtrees in parallel
+        bool use_tasks = (left_dataview.get_dataset_size() > 200 && right_dataview.get_dataset_size() > 200);
+        
+        statistics::increment_gen();
+        
         const Configuration left_solution_configuration = solution_configuration.GetLeftSubtreeConfig();
-
-        // Threshold for task creation: only use tasks for larger problems
-        const int TASK_CUTOFF_SIZE = 50;  // Minimum dataset size to create tasks
-        const int TASK_CUTOFF_DEPTH = 3;  // Maximum depth to create tasks (avoid deep nesting)
-        bool use_tasks = (larger_data.get_dataset_size() >= TASK_CUTOFF_SIZE &&
-                          solution_configuration.max_depth >= TASK_CUTOFF_DEPTH);
-
-        // Calculate speculative upper bound for smaller subtree (same as larger, enabling parallelism)
-        int speculative_smaller_ub = solution_configuration.use_upper_bound ?
-            std::max(std::min(current_optimal_decision_tree->misclassification_score, upper_bound), interval_half_distance)
-            : current_optimal_decision_tree->misclassification_score;
-
         const Configuration right_solution_configuration = solution_configuration.GetRightSubtreeConfig(left_solution_configuration.max_gap);
-
-        if (use_tasks && omp_in_parallel()) {
-            // SPECULATIVE PARALLELISM: Launch both subtrees in parallel with same (looser) bound
-            // This trades tighter pruning for true parallelism - we do more work but finish faster
-            statistics::total_number_of_general_solver_calls += 1;
-
-            #pragma omp task shared(larger_optimal_dt)
+        
+        // Pass pruning_bound as the upper_bound constraint for recursion
+        int left_ub = solution_configuration.use_upper_bound ? std::min(upper_bound, pruning_bound)
+                                       : pruning_bound;
+        
+        if (use_tasks) {
+            #pragma omp task shared(left_optimal_dt) firstprivate(left_dataview, left_solution_configuration, left_ub)
             {
-                GeneralSolver::create_optimal_decision_tree(larger_data, left_solution_configuration, larger_optimal_dt, larger_ub);
+                GeneralSolver::create_optimal_decision_tree(left_dataview, left_solution_configuration, left_optimal_dt, left_ub);
             }
-
-            #pragma omp task shared(smaller_optimal_dt)
+            
+            #pragma omp task shared(right_optimal_dt) firstprivate(right_dataview, right_solution_configuration, left_ub)
             {
-                GeneralSolver::create_optimal_decision_tree(smaller_data, right_solution_configuration, smaller_optimal_dt, speculative_smaller_ub);
+                GeneralSolver::create_optimal_decision_tree(right_dataview, right_solution_configuration, right_optimal_dt, left_ub);
             }
-
-            #pragma omp taskwait  // Wait for BOTH subtrees to complete
-
-            // Both trees computed in parallel - process results
-            RUNTIME_ASSERT(left_optimal_dt->misclassification_score >= 0, "Left tree should have non-negative misclassification score.");
-            RUNTIME_ASSERT(right_optimal_dt->misclassification_score >= 0, "Right tree should have non-negative misclassification score.");
-
-            const int current_best_score = left_optimal_dt->misclassification_score + right_optimal_dt->misclassification_score;
-
-            if (current_best_score < current_optimal_decision_tree->misclassification_score) {
-                RUNTIME_ASSERT(left_optimal_dt->is_initialized(), "Left tree should be initialized.");
-                RUNTIME_ASSERT(right_optimal_dt->is_initialized(), "Right tree should be initialized.");
-
-                current_optimal_decision_tree->misclassification_score = current_best_score;
-                current_optimal_decision_tree->update_split(feature_index, threshold, left_optimal_dt, right_optimal_dt);
-
-                if (current_best_score == 0) {
-                    return;
-                }
-
-                if (PRINT_INTERMEDIARY_TIME_SOLUTIONS && solution_configuration.is_root)  {
-                    const auto stop = std::chrono::high_resolution_clock::now();
-                    const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - starting_time);
-                    std::cout << "Time taken to get the misclassification score " << current_best_score << ": " << duration.count() / 1000.0 << " seconds" << std::endl;
-                }
-            }
+            
+            #pragma omp taskwait
         } else {
-            // Sequential execution with tight bounds (traditional approach)
-            GeneralSolver::create_optimal_decision_tree(larger_data, left_solution_configuration, larger_optimal_dt, larger_ub);
+            // Sequential for small subtrees (less overhead)
+            auto& smaller_data = (left_dataview.get_dataset_size() < right_dataview.get_dataset_size() ) ? left_dataview : right_dataview;
+            auto& larger_data  = (left_dataview.get_dataset_size()  < right_dataview.get_dataset_size() ) ? right_dataview : left_dataview;
 
-            int smaller_ub = solution_configuration.use_upper_bound ?
-                std::max(std::min(current_optimal_decision_tree->misclassification_score, upper_bound) - larger_optimal_dt->misclassification_score, interval_half_distance)
-                : current_optimal_decision_tree->misclassification_score;
+            auto& smaller_optimal_dt = (left_dataview.get_dataset_size()  < right_dataview.get_dataset_size() ) ? left_optimal_dt : right_optimal_dt;
+            auto& larger_optimal_dt  = (left_dataview.get_dataset_size()  < right_dataview.get_dataset_size() ) ? right_optimal_dt : left_optimal_dt;
 
-            if (smaller_ub > 0 || (smaller_ub == 0 && current_optimal_decision_tree->misclassification_score == larger_optimal_dt->misclassification_score)) {
-                statistics::total_number_of_general_solver_calls += 1;
-                GeneralSolver::create_optimal_decision_tree(smaller_data, right_solution_configuration, smaller_optimal_dt, smaller_ub);
+            GeneralSolver::create_optimal_decision_tree(larger_data, left_solution_configuration, larger_optimal_dt, left_ub);
 
-                // Both trees computed sequentially - process results
-                RUNTIME_ASSERT(left_optimal_dt->misclassification_score >= 0, "Left tree should have non-negative misclassification score.");
-                RUNTIME_ASSERT(right_optimal_dt->misclassification_score >= 0, "Right tree should have non-negative misclassification score.");
+            // Dynamically calculate remaining budget for the second tree
+            // If the first tree failed (still INT_MAX), we can't calculate a budget, so we skip the second.
+            if (larger_optimal_dt->misclassification_score < INT_MAX) {
+                 int smaller_ub = solution_configuration.use_upper_bound ? std::max(std::min(pruning_bound, upper_bound) - larger_optimal_dt->misclassification_score, interval_half_distance) 
+                                            : pruning_bound;
 
-                const int current_best_score = left_optimal_dt->misclassification_score + right_optimal_dt->misclassification_score;
-
-                if (current_best_score < current_optimal_decision_tree->misclassification_score) {
-                    RUNTIME_ASSERT(left_optimal_dt->is_initialized(), "Left tree should be initialized.");
-                    RUNTIME_ASSERT(right_optimal_dt->is_initialized(), "Right tree should be initialized.");
-
-                    current_optimal_decision_tree->misclassification_score = current_best_score;
-                    current_optimal_decision_tree->update_split(feature_index, threshold, left_optimal_dt, right_optimal_dt);
-
-                    if (current_best_score == 0) {
-                        return;
-                    }
-
-                    if (PRINT_INTERMEDIARY_TIME_SOLUTIONS && solution_configuration.is_root)  {
-                        const auto stop = std::chrono::high_resolution_clock::now();
-                        const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - starting_time);
-                        std::cout << "Time taken to get the misclassification score " << current_best_score << ": " << duration.count() / 1000.0 << " seconds" << std::endl;
-                    }
-                }
-            } else {
-                smaller_optimal_dt->misclassification_score = -1;
+                 if (smaller_ub > 0 || (smaller_ub == 0 && pruning_bound == larger_optimal_dt->misclassification_score)) {
+                     statistics::increment_gen();
+                     GeneralSolver::create_optimal_decision_tree(smaller_data, right_solution_configuration, smaller_optimal_dt, smaller_ub);
+                 }
             }
         }
 
+        // Check if either child failed to find a valid solution (still INT_MAX) or is uninitialized
+        if (left_optimal_dt->misclassification_score >= INT_MAX || right_optimal_dt->misclassification_score >= INT_MAX ||
+            !left_optimal_dt->is_initialized() || !right_optimal_dt->is_initialized()) {
+            interval_pruner.add_result(mid, left_optimal_dt->misclassification_score, right_optimal_dt->misclassification_score);
+            continue;
+        }
+
+        RUNTIME_ASSERT(left_optimal_dt->misclassification_score >= 0, "Left tree should have non-negative misclassification score.");
+        RUNTIME_ASSERT(right_optimal_dt->misclassification_score >= 0, "Right tree should have non-negative misclassification score.");
+
+        const int current_best_score = left_optimal_dt->misclassification_score + right_optimal_dt->misclassification_score;
+
+        if (current_best_score < current_optimal_decision_tree->misclassification_score) {
+            // Double check initialization before assignment
+            RUNTIME_ASSERT(left_optimal_dt->is_initialized(), "Left tree should be initialized.");
+            RUNTIME_ASSERT(right_optimal_dt->is_initialized(), "Right tree should be initialized.");
+
+            current_optimal_decision_tree->misclassification_score = current_best_score;
+            current_optimal_decision_tree->update_split(feature_index, threshold, left_optimal_dt, right_optimal_dt);
+            
+            // Update the passed atomic to signal other threads working on this node
+            int old_node_best = parent_node_best_score.load(std::memory_order_relaxed);
+            while (current_best_score < old_node_best && 
+                   !parent_node_best_score.compare_exchange_weak(old_node_best, current_best_score, std::memory_order_relaxed));
+
+            if (current_best_score == 0) {
+                return;
+            }
+
+            if (solution_configuration.print_logs && solution_configuration.is_root)  {
+                const auto stop = std::chrono::high_resolution_clock::now();
+                const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - starting_time);
+                std::cout << "Time taken to get the misclassification score " << current_best_score << ": " << duration.count() / 1000.0 << " seconds" << std::endl;
+            }
+        }
+        
         interval_pruner.add_result(mid, left_optimal_dt->misclassification_score, right_optimal_dt->misclassification_score);
 
         if (left == right) {
@@ -247,10 +202,7 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
         }
 
         const int score_difference = left_optimal_dt->misclassification_score + right_optimal_dt->misclassification_score - current_optimal_decision_tree->misclassification_score;
-
-        const auto bounds = interval_pruner.neighbourhood_pruning(score_difference, left, right, mid);
-        int new_bound_left = bounds.first;
-        int new_bound_right = bounds.second;
+        const auto [new_bound_left, new_bound_right] = interval_pruner.neighbourhood_pruning(score_difference, left, right, mid);
 
         if (new_bound_left <= right) {
             unsearched_intervals.push({new_bound_left, right, mid, current_right_bound});
@@ -261,7 +213,7 @@ void GeneralSolver::create_optimal_decision_tree(const Dataview& dataview, const
         }
     }
 }
-/*
+
 void GeneralSolver::calculate_leaf_node(int class_number, int instance_number, const std::vector<int>& label_frequency, std::shared_ptr<Tree>& current_optimal_decision_tree) {
     int best_classification_score = -1;
     int best_classification_label = -1;
@@ -280,35 +232,3 @@ void GeneralSolver::calculate_leaf_node(int class_number, int instance_number, c
         current_optimal_decision_tree->make_leaf(best_classification_label, best_misclassification_score);
     }
 }
-
-*/
-void GeneralSolver::calculate_leaf_node(
-    int class_number,
-    int instance_number,
-    const std::vector<int>& label_frequency,
-    std::shared_ptr<Tree>& current_optimal_decision_tree)
-{
-    std::int64_t best_packed = (std::int64_t(-1) << 32) | std::uint32_t(0);
-
-    #pragma omp parallel for if(!omp_in_parallel()) reduction(max:best_packed)
-    for (int label = 0; label < class_number; ++label) {
-        const int score = label_frequency[label];
-        const std::uint32_t tie = 0xFFFFFFFFu - static_cast<std::uint32_t>(label);
-        const std::int64_t packed =
-            (static_cast<std::int64_t>(score) << 32) | static_cast<std::int64_t>(tie);
-
-        if (packed > best_packed) best_packed = packed;
-    }
-
-    const int best_classification_score = static_cast<int>(best_packed >> 32);
-    const int best_classification_label =
-        static_cast<int>(0xFFFFFFFFu - static_cast<std::uint32_t>(best_packed));
-
-    const int best_misclassification_score = instance_number - best_classification_score;
-
-    if (best_misclassification_score < current_optimal_decision_tree->misclassification_score) {
-        RUNTIME_ASSERT(best_classification_label != -1, "Cannot assign negative leaf label.");
-        current_optimal_decision_tree->make_leaf(best_classification_label, best_misclassification_score);
-    }
-}
-

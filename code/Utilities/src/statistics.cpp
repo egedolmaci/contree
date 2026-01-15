@@ -1,13 +1,17 @@
-#include <iostream>
-
 #include "statistics.h"
 
-std::atomic<unsigned long long> statistics::total_number_of_specialized_solver_calls{0};
-std::atomic<unsigned long long> statistics::total_number_of_general_solver_calls{0};
-
-bool statistics::should_print = false;
-
 void statistics::print_statistics() {
-    std::cout << "Total number of specialized solver calls: " << total_number_of_specialized_solver_calls << std::endl;
-    std::cout << "Total number of general solver calls: " << total_number_of_general_solver_calls << std::endl;
+    unsigned long long total_spec = 0;
+    unsigned long long total_gen = 0;
+    unsigned long long total_hits = 0;
+
+    for (int i = 0; i < 128; ++i) {
+        total_spec += spec_calls[i].value;
+        total_gen += gen_calls[i].value;
+        total_hits += cache_hits[i].value;
+    }
+
+    std::cout << "Total number of specialized solver calls: " << total_spec << std::endl;
+    std::cout << "Total number of general solver calls: " << total_gen << std::endl;
+    std::cout << "Total number cache hits: " << total_hits << std::endl;
 }

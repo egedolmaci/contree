@@ -36,8 +36,6 @@ struct Configuration {
     float max_gap_decay;
     bool print_logs;
     bool use_upper_bound;
-    bool use_gpu_bruteforce{ false };
-    int max_thresholds_per_feature{ 128 };
     bool is_root{ false };
     bool sort_gini{ false };
     Stopwatch stopwatch;

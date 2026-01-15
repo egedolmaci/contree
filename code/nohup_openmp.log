@@ -1,0 +1,701 @@
+nohup: ignoring input
+SCRIPT STARTED
+RUN: dataset=fault depth=2 threads=1
+RUN: dataset=fault depth=2 threads=2
+RUN: dataset=fault depth=2 threads=3
+RUN: dataset=fault depth=2 threads=4
+RUN: dataset=fault depth=2 threads=5
+RUN: dataset=fault depth=2 threads=6
+RUN: dataset=fault depth=2 threads=7
+RUN: dataset=fault depth=2 threads=8
+RUN: dataset=fault depth=2 threads=9
+RUN: dataset=fault depth=2 threads=10
+RUN: dataset=fault depth=2 threads=11
+RUN: dataset=fault depth=2 threads=12
+RUN: dataset=fault depth=2 threads=13
+RUN: dataset=fault depth=2 threads=14
+RUN: dataset=fault depth=2 threads=15
+RUN: dataset=fault depth=2 threads=16
+RUN: dataset=fault depth=2 threads=32
+RUN: dataset=fault depth=2 threads=60
+RUN: dataset=bank depth=2 threads=1
+RUN: dataset=bank depth=2 threads=2
+RUN: dataset=bank depth=2 threads=3
+RUN: dataset=bank depth=2 threads=4
+RUN: dataset=bank depth=2 threads=5
+RUN: dataset=bank depth=2 threads=6
+RUN: dataset=bank depth=2 threads=7
+RUN: dataset=bank depth=2 threads=8
+RUN: dataset=bank depth=2 threads=9
+RUN: dataset=bank depth=2 threads=10
+RUN: dataset=bank depth=2 threads=11
+RUN: dataset=bank depth=2 threads=12
+RUN: dataset=bank depth=2 threads=13
+RUN: dataset=bank depth=2 threads=14
+RUN: dataset=bank depth=2 threads=15
+RUN: dataset=bank depth=2 threads=16
+RUN: dataset=bank depth=2 threads=32
+RUN: dataset=bank depth=2 threads=60
+RUN: dataset=skin depth=2 threads=1
+RUN: dataset=skin depth=2 threads=2
+RUN: dataset=skin depth=2 threads=3
+RUN: dataset=skin depth=2 threads=4
+RUN: dataset=skin depth=2 threads=5
+RUN: dataset=skin depth=2 threads=6
+RUN: dataset=skin depth=2 threads=7
+RUN: dataset=skin depth=2 threads=8
+RUN: dataset=skin depth=2 threads=9
+RUN: dataset=skin depth=2 threads=10
+RUN: dataset=skin depth=2 threads=11
+RUN: dataset=skin depth=2 threads=12
+RUN: dataset=skin depth=2 threads=13
+RUN: dataset=skin depth=2 threads=14
+RUN: dataset=skin depth=2 threads=15
+RUN: dataset=skin depth=2 threads=16
+RUN: dataset=skin depth=2 threads=32
+RUN: dataset=skin depth=2 threads=60
+RUN: dataset=wilt depth=2 threads=1
+RUN: dataset=wilt depth=2 threads=2
+RUN: dataset=wilt depth=2 threads=3
+RUN: dataset=wilt depth=2 threads=4
+RUN: dataset=wilt depth=2 threads=5
+RUN: dataset=wilt depth=2 threads=6
+RUN: dataset=wilt depth=2 threads=7
+RUN: dataset=wilt depth=2 threads=8
+RUN: dataset=wilt depth=2 threads=9
+RUN: dataset=wilt depth=2 threads=10
+RUN: dataset=wilt depth=2 threads=11
+RUN: dataset=wilt depth=2 threads=12
+RUN: dataset=wilt depth=2 threads=13
+RUN: dataset=wilt depth=2 threads=14
+RUN: dataset=wilt depth=2 threads=15
+RUN: dataset=wilt depth=2 threads=16
+RUN: dataset=wilt depth=2 threads=32
+RUN: dataset=wilt depth=2 threads=60
+RUN: dataset=rice depth=2 threads=1
+RUN: dataset=rice depth=2 threads=2
+RUN: dataset=rice depth=2 threads=3
+RUN: dataset=rice depth=2 threads=4
+RUN: dataset=rice depth=2 threads=5
+RUN: dataset=rice depth=2 threads=6
+RUN: dataset=rice depth=2 threads=7
+RUN: dataset=rice depth=2 threads=8
+RUN: dataset=rice depth=2 threads=9
+RUN: dataset=rice depth=2 threads=10
+RUN: dataset=rice depth=2 threads=11
+RUN: dataset=rice depth=2 threads=12
+RUN: dataset=rice depth=2 threads=13
+RUN: dataset=rice depth=2 threads=14
+RUN: dataset=rice depth=2 threads=15
+RUN: dataset=rice depth=2 threads=16
+RUN: dataset=rice depth=2 threads=32
+RUN: dataset=rice depth=2 threads=60
+RUN: dataset=room depth=2 threads=1
+RUN: dataset=room depth=2 threads=2
+RUN: dataset=room depth=2 threads=3
+RUN: dataset=room depth=2 threads=4
+RUN: dataset=room depth=2 threads=5
+RUN: dataset=room depth=2 threads=6
+RUN: dataset=room depth=2 threads=7
+RUN: dataset=room depth=2 threads=8
+RUN: dataset=room depth=2 threads=9
+RUN: dataset=room depth=2 threads=10
+RUN: dataset=room depth=2 threads=11
+RUN: dataset=room depth=2 threads=12
+RUN: dataset=room depth=2 threads=13
+RUN: dataset=room depth=2 threads=14
+RUN: dataset=room depth=2 threads=15
+RUN: dataset=room depth=2 threads=16
+RUN: dataset=room depth=2 threads=32
+RUN: dataset=room depth=2 threads=60
+RUN: dataset=eeg depth=2 threads=1
+RUN: dataset=eeg depth=2 threads=2
+RUN: dataset=eeg depth=2 threads=3
+RUN: dataset=eeg depth=2 threads=4
+RUN: dataset=eeg depth=2 threads=5
+RUN: dataset=eeg depth=2 threads=6
+RUN: dataset=eeg depth=2 threads=7
+RUN: dataset=eeg depth=2 threads=8
+RUN: dataset=eeg depth=2 threads=9
+RUN: dataset=eeg depth=2 threads=10
+RUN: dataset=eeg depth=2 threads=11
+RUN: dataset=eeg depth=2 threads=12
+RUN: dataset=eeg depth=2 threads=13
+RUN: dataset=eeg depth=2 threads=14
+RUN: dataset=eeg depth=2 threads=15
+RUN: dataset=eeg depth=2 threads=16
+RUN: dataset=eeg depth=2 threads=32
+RUN: dataset=eeg depth=2 threads=60
+RUN: dataset=occupancy depth=2 threads=1
+RUN: dataset=occupancy depth=2 threads=2
+RUN: dataset=occupancy depth=2 threads=3
+RUN: dataset=occupancy depth=2 threads=4
+RUN: dataset=occupancy depth=2 threads=5
+RUN: dataset=occupancy depth=2 threads=6
+RUN: dataset=occupancy depth=2 threads=7
+RUN: dataset=occupancy depth=2 threads=8
+RUN: dataset=occupancy depth=2 threads=9
+RUN: dataset=occupancy depth=2 threads=10
+RUN: dataset=occupancy depth=2 threads=11
+RUN: dataset=occupancy depth=2 threads=12
+RUN: dataset=occupancy depth=2 threads=13
+RUN: dataset=occupancy depth=2 threads=14
+RUN: dataset=occupancy depth=2 threads=15
+RUN: dataset=occupancy depth=2 threads=16
+RUN: dataset=occupancy depth=2 threads=32
+RUN: dataset=occupancy depth=2 threads=60
+RUN: dataset=page depth=2 threads=1
+RUN: dataset=page depth=2 threads=2
+RUN: dataset=page depth=2 threads=3
+RUN: dataset=page depth=2 threads=4
+RUN: dataset=page depth=2 threads=5
+RUN: dataset=page depth=2 threads=6
+RUN: dataset=page depth=2 threads=7
+RUN: dataset=page depth=2 threads=8
+RUN: dataset=page depth=2 threads=9
+RUN: dataset=page depth=2 threads=10
+RUN: dataset=page depth=2 threads=11
+RUN: dataset=page depth=2 threads=12
+RUN: dataset=page depth=2 threads=13
+RUN: dataset=page depth=2 threads=14
+RUN: dataset=page depth=2 threads=15
+RUN: dataset=page depth=2 threads=16
+RUN: dataset=page depth=2 threads=32
+RUN: dataset=page depth=2 threads=60
+RUN: dataset=raisin depth=2 threads=1
+RUN: dataset=raisin depth=2 threads=2
+RUN: dataset=raisin depth=2 threads=3
+RUN: dataset=raisin depth=2 threads=4
+RUN: dataset=raisin depth=2 threads=5
+RUN: dataset=raisin depth=2 threads=6
+RUN: dataset=raisin depth=2 threads=7
+RUN: dataset=raisin depth=2 threads=8
+RUN: dataset=raisin depth=2 threads=9
+RUN: dataset=raisin depth=2 threads=10
+RUN: dataset=raisin depth=2 threads=11
+RUN: dataset=raisin depth=2 threads=12
+RUN: dataset=raisin depth=2 threads=13
+RUN: dataset=raisin depth=2 threads=14
+RUN: dataset=raisin depth=2 threads=15
+RUN: dataset=raisin depth=2 threads=16
+RUN: dataset=raisin depth=2 threads=32
+RUN: dataset=raisin depth=2 threads=60
+RUN: dataset=magic depth=2 threads=1
+RUN: dataset=magic depth=2 threads=2
+RUN: dataset=magic depth=2 threads=3
+RUN: dataset=magic depth=2 threads=4
+RUN: dataset=magic depth=2 threads=5
+RUN: dataset=magic depth=2 threads=6
+RUN: dataset=magic depth=2 threads=7
+RUN: dataset=magic depth=2 threads=8
+RUN: dataset=magic depth=2 threads=9
+RUN: dataset=magic depth=2 threads=10
+RUN: dataset=magic depth=2 threads=11
+RUN: dataset=magic depth=2 threads=12
+RUN: dataset=magic depth=2 threads=13
+RUN: dataset=magic depth=2 threads=14
+RUN: dataset=magic depth=2 threads=15
+RUN: dataset=magic depth=2 threads=16
+RUN: dataset=magic depth=2 threads=32
+RUN: dataset=magic depth=2 threads=60
+RUN: dataset=segment depth=2 threads=1
+RUN: dataset=segment depth=2 threads=2
+RUN: dataset=segment depth=2 threads=3
+RUN: dataset=segment depth=2 threads=4
+RUN: dataset=segment depth=2 threads=5
+RUN: dataset=segment depth=2 threads=6
+RUN: dataset=segment depth=2 threads=7
+RUN: dataset=segment depth=2 threads=8
+RUN: dataset=segment depth=2 threads=9
+RUN: dataset=segment depth=2 threads=10
+RUN: dataset=segment depth=2 threads=11
+RUN: dataset=segment depth=2 threads=12
+RUN: dataset=segment depth=2 threads=13
+RUN: dataset=segment depth=2 threads=14
+RUN: dataset=segment depth=2 threads=15
+RUN: dataset=segment depth=2 threads=16
+RUN: dataset=segment depth=2 threads=32
+RUN: dataset=segment depth=2 threads=60
+RUN: dataset=bidding depth=2 threads=1
+RUN: dataset=bidding depth=2 threads=2
+RUN: dataset=bidding depth=2 threads=3
+RUN: dataset=bidding depth=2 threads=4
+RUN: dataset=bidding depth=2 threads=5
+RUN: dataset=bidding depth=2 threads=6
+RUN: dataset=bidding depth=2 threads=7
+RUN: dataset=bidding depth=2 threads=8
+RUN: dataset=bidding depth=2 threads=9
+RUN: dataset=bidding depth=2 threads=10
+RUN: dataset=bidding depth=2 threads=11
+RUN: dataset=bidding depth=2 threads=12
+RUN: dataset=bidding depth=2 threads=13
+RUN: dataset=bidding depth=2 threads=14
+RUN: dataset=bidding depth=2 threads=15
+RUN: dataset=bidding depth=2 threads=16
+RUN: dataset=bidding depth=2 threads=32
+RUN: dataset=bidding depth=2 threads=60
+RUN: dataset=htru depth=2 threads=1
+RUN: dataset=htru depth=2 threads=2
+RUN: dataset=htru depth=2 threads=3
+RUN: dataset=htru depth=2 threads=4
+RUN: dataset=htru depth=2 threads=5
+RUN: dataset=htru depth=2 threads=6
+RUN: dataset=htru depth=2 threads=7
+RUN: dataset=htru depth=2 threads=8
+RUN: dataset=htru depth=2 threads=9
+RUN: dataset=htru depth=2 threads=10
+RUN: dataset=htru depth=2 threads=11
+RUN: dataset=htru depth=2 threads=12
+RUN: dataset=htru depth=2 threads=13
+RUN: dataset=htru depth=2 threads=14
+RUN: dataset=htru depth=2 threads=15
+RUN: dataset=htru depth=2 threads=16
+RUN: dataset=htru depth=2 threads=32
+RUN: dataset=htru depth=2 threads=60
+RUN: dataset=bean depth=2 threads=1
+RUN: dataset=bean depth=2 threads=2
+RUN: dataset=bean depth=2 threads=3
+RUN: dataset=bean depth=2 threads=4
+RUN: dataset=bean depth=2 threads=5
+RUN: dataset=bean depth=2 threads=6
+RUN: dataset=bean depth=2 threads=7
+RUN: dataset=bean depth=2 threads=8
+RUN: dataset=bean depth=2 threads=9
+RUN: dataset=bean depth=2 threads=10
+RUN: dataset=bean depth=2 threads=11
+RUN: dataset=bean depth=2 threads=12
+RUN: dataset=bean depth=2 threads=13
+RUN: dataset=bean depth=2 threads=14
+RUN: dataset=bean depth=2 threads=15
+RUN: dataset=bean depth=2 threads=16
+RUN: dataset=bean depth=2 threads=32
+RUN: dataset=bean depth=2 threads=60
+RUN: dataset=avila depth=2 threads=1
+RUN: dataset=avila depth=2 threads=2
+RUN: dataset=avila depth=2 threads=3
+RUN: dataset=avila depth=2 threads=4
+RUN: dataset=avila depth=2 threads=5
+RUN: dataset=avila depth=2 threads=6
+RUN: dataset=avila depth=2 threads=7
+RUN: dataset=avila depth=2 threads=8
+RUN: dataset=avila depth=2 threads=9
+RUN: dataset=avila depth=2 threads=10
+RUN: dataset=avila depth=2 threads=11
+RUN: dataset=avila depth=2 threads=12
+RUN: dataset=avila depth=2 threads=13
+RUN: dataset=avila depth=2 threads=14
+RUN: dataset=avila depth=2 threads=15
+RUN: dataset=avila depth=2 threads=16
+RUN: dataset=avila depth=2 threads=32
+RUN: dataset=avila depth=2 threads=60
+RUN: dataset=fault depth=3 threads=1
+RUN: dataset=fault depth=3 threads=2
+RUN: dataset=fault depth=3 threads=3
+RUN: dataset=fault depth=3 threads=4
+RUN: dataset=fault depth=3 threads=5
+RUN: dataset=fault depth=3 threads=6
+RUN: dataset=fault depth=3 threads=7
+RUN: dataset=fault depth=3 threads=8
+RUN: dataset=fault depth=3 threads=9
+RUN: dataset=fault depth=3 threads=10
+RUN: dataset=fault depth=3 threads=11
+RUN: dataset=fault depth=3 threads=12
+RUN: dataset=fault depth=3 threads=13
+RUN: dataset=fault depth=3 threads=14
+RUN: dataset=fault depth=3 threads=15
+RUN: dataset=fault depth=3 threads=16
+RUN: dataset=fault depth=3 threads=32
+RUN: dataset=fault depth=3 threads=60
+RUN: dataset=bank depth=3 threads=1
+RUN: dataset=bank depth=3 threads=2
+RUN: dataset=bank depth=3 threads=3
+RUN: dataset=bank depth=3 threads=4
+RUN: dataset=bank depth=3 threads=5
+RUN: dataset=bank depth=3 threads=6
+RUN: dataset=bank depth=3 threads=7
+RUN: dataset=bank depth=3 threads=8
+RUN: dataset=bank depth=3 threads=9
+RUN: dataset=bank depth=3 threads=10
+RUN: dataset=bank depth=3 threads=11
+RUN: dataset=bank depth=3 threads=12
+RUN: dataset=bank depth=3 threads=13
+RUN: dataset=bank depth=3 threads=14
+RUN: dataset=bank depth=3 threads=15
+RUN: dataset=bank depth=3 threads=16
+RUN: dataset=bank depth=3 threads=32
+RUN: dataset=bank depth=3 threads=60
+RUN: dataset=skin depth=3 threads=1
+RUN: dataset=skin depth=3 threads=2
+RUN: dataset=skin depth=3 threads=3
+RUN: dataset=skin depth=3 threads=4
+RUN: dataset=skin depth=3 threads=5
+RUN: dataset=skin depth=3 threads=6
+RUN: dataset=skin depth=3 threads=7
+RUN: dataset=skin depth=3 threads=8
+RUN: dataset=skin depth=3 threads=9
+RUN: dataset=skin depth=3 threads=10
+RUN: dataset=skin depth=3 threads=11
+RUN: dataset=skin depth=3 threads=12
+RUN: dataset=skin depth=3 threads=13
+RUN: dataset=skin depth=3 threads=14
+RUN: dataset=skin depth=3 threads=15
+RUN: dataset=skin depth=3 threads=16
+RUN: dataset=skin depth=3 threads=32
+RUN: dataset=skin depth=3 threads=60
+RUN: dataset=wilt depth=3 threads=1
+RUN: dataset=wilt depth=3 threads=2
+RUN: dataset=wilt depth=3 threads=3
+RUN: dataset=wilt depth=3 threads=4
+RUN: dataset=wilt depth=3 threads=5
+RUN: dataset=wilt depth=3 threads=6
+RUN: dataset=wilt depth=3 threads=7
+RUN: dataset=wilt depth=3 threads=8
+RUN: dataset=wilt depth=3 threads=9
+RUN: dataset=wilt depth=3 threads=10
+RUN: dataset=wilt depth=3 threads=11
+RUN: dataset=wilt depth=3 threads=12
+RUN: dataset=wilt depth=3 threads=13
+RUN: dataset=wilt depth=3 threads=14
+RUN: dataset=wilt depth=3 threads=15
+RUN: dataset=wilt depth=3 threads=16
+RUN: dataset=wilt depth=3 threads=32
+RUN: dataset=wilt depth=3 threads=60
+RUN: dataset=rice depth=3 threads=1
+RUN: dataset=rice depth=3 threads=2
+RUN: dataset=rice depth=3 threads=3
+RUN: dataset=rice depth=3 threads=4
+RUN: dataset=rice depth=3 threads=5
+RUN: dataset=rice depth=3 threads=6
+RUN: dataset=rice depth=3 threads=7
+RUN: dataset=rice depth=3 threads=8
+RUN: dataset=rice depth=3 threads=9
+RUN: dataset=rice depth=3 threads=10
+RUN: dataset=rice depth=3 threads=11
+RUN: dataset=rice depth=3 threads=12
+RUN: dataset=rice depth=3 threads=13
+RUN: dataset=rice depth=3 threads=14
+RUN: dataset=rice depth=3 threads=15
+RUN: dataset=rice depth=3 threads=16
+RUN: dataset=rice depth=3 threads=32
+RUN: dataset=rice depth=3 threads=60
+RUN: dataset=room depth=3 threads=1
+RUN: dataset=room depth=3 threads=2
+RUN: dataset=room depth=3 threads=3
+RUN: dataset=room depth=3 threads=4
+RUN: dataset=room depth=3 threads=5
+RUN: dataset=room depth=3 threads=6
+RUN: dataset=room depth=3 threads=7
+RUN: dataset=room depth=3 threads=8
+RUN: dataset=room depth=3 threads=9
+RUN: dataset=room depth=3 threads=10
+RUN: dataset=room depth=3 threads=11
+RUN: dataset=room depth=3 threads=12
+RUN: dataset=room depth=3 threads=13
+RUN: dataset=room depth=3 threads=14
+RUN: dataset=room depth=3 threads=15
+RUN: dataset=room depth=3 threads=16
+RUN: dataset=room depth=3 threads=32
+RUN: dataset=room depth=3 threads=60
+RUN: dataset=eeg depth=3 threads=1
+RUN: dataset=eeg depth=3 threads=2
+RUN: dataset=eeg depth=3 threads=3
+RUN: dataset=eeg depth=3 threads=4
+RUN: dataset=eeg depth=3 threads=5
+RUN: dataset=eeg depth=3 threads=6
+RUN: dataset=eeg depth=3 threads=7
+RUN: dataset=eeg depth=3 threads=8
+RUN: dataset=eeg depth=3 threads=9
+RUN: dataset=eeg depth=3 threads=10
+RUN: dataset=eeg depth=3 threads=11
+RUN: dataset=eeg depth=3 threads=12
+RUN: dataset=eeg depth=3 threads=13
+RUN: dataset=eeg depth=3 threads=14
+RUN: dataset=eeg depth=3 threads=15
+RUN: dataset=eeg depth=3 threads=16
+RUN: dataset=eeg depth=3 threads=32
+RUN: dataset=eeg depth=3 threads=60
+RUN: dataset=occupancy depth=3 threads=1
+RUN: dataset=occupancy depth=3 threads=2
+RUN: dataset=occupancy depth=3 threads=3
+RUN: dataset=occupancy depth=3 threads=4
+RUN: dataset=occupancy depth=3 threads=5
+RUN: dataset=occupancy depth=3 threads=6
+RUN: dataset=occupancy depth=3 threads=7
+RUN: dataset=occupancy depth=3 threads=8
+RUN: dataset=occupancy depth=3 threads=9
+RUN: dataset=occupancy depth=3 threads=10
+RUN: dataset=occupancy depth=3 threads=11
+RUN: dataset=occupancy depth=3 threads=12
+RUN: dataset=occupancy depth=3 threads=13
+RUN: dataset=occupancy depth=3 threads=14
+RUN: dataset=occupancy depth=3 threads=15
+RUN: dataset=occupancy depth=3 threads=16
+RUN: dataset=occupancy depth=3 threads=32
+RUN: dataset=occupancy depth=3 threads=60
+RUN: dataset=page depth=3 threads=1
+RUN: dataset=page depth=3 threads=2
+RUN: dataset=page depth=3 threads=3
+RUN: dataset=page depth=3 threads=4
+RUN: dataset=page depth=3 threads=5
+RUN: dataset=page depth=3 threads=6
+RUN: dataset=page depth=3 threads=7
+RUN: dataset=page depth=3 threads=8
+RUN: dataset=page depth=3 threads=9
+RUN: dataset=page depth=3 threads=10
+RUN: dataset=page depth=3 threads=11
+RUN: dataset=page depth=3 threads=12
+RUN: dataset=page depth=3 threads=13
+RUN: dataset=page depth=3 threads=14
+RUN: dataset=page depth=3 threads=15
+RUN: dataset=page depth=3 threads=16
+RUN: dataset=page depth=3 threads=32
+RUN: dataset=page depth=3 threads=60
+RUN: dataset=raisin depth=3 threads=1
+RUN: dataset=raisin depth=3 threads=2
+RUN: dataset=raisin depth=3 threads=3
+RUN: dataset=raisin depth=3 threads=4
+RUN: dataset=raisin depth=3 threads=5
+RUN: dataset=raisin depth=3 threads=6
+RUN: dataset=raisin depth=3 threads=7
+RUN: dataset=raisin depth=3 threads=8
+RUN: dataset=raisin depth=3 threads=9
+RUN: dataset=raisin depth=3 threads=10
+RUN: dataset=raisin depth=3 threads=11
+RUN: dataset=raisin depth=3 threads=12
+RUN: dataset=raisin depth=3 threads=13
+RUN: dataset=raisin depth=3 threads=14
+RUN: dataset=raisin depth=3 threads=15
+RUN: dataset=raisin depth=3 threads=16
+RUN: dataset=raisin depth=3 threads=32
+RUN: dataset=raisin depth=3 threads=60
+RUN: dataset=magic depth=3 threads=1
+RUN: dataset=magic depth=3 threads=2
+RUN: dataset=magic depth=3 threads=3
+RUN: dataset=magic depth=3 threads=4
+RUN: dataset=magic depth=3 threads=5
+RUN: dataset=magic depth=3 threads=6
+RUN: dataset=magic depth=3 threads=7
+RUN: dataset=magic depth=3 threads=8
+RUN: dataset=magic depth=3 threads=9
+RUN: dataset=magic depth=3 threads=10
+RUN: dataset=magic depth=3 threads=11
+RUN: dataset=magic depth=3 threads=12
+RUN: dataset=magic depth=3 threads=13
+RUN: dataset=magic depth=3 threads=14
+RUN: dataset=magic depth=3 threads=15
+RUN: dataset=magic depth=3 threads=16
+RUN: dataset=magic depth=3 threads=32
+RUN: dataset=magic depth=3 threads=60
+RUN: dataset=segment depth=3 threads=1
+RUN: dataset=segment depth=3 threads=2
+RUN: dataset=segment depth=3 threads=3
+RUN: dataset=segment depth=3 threads=4
+RUN: dataset=segment depth=3 threads=5
+RUN: dataset=segment depth=3 threads=6
+RUN: dataset=segment depth=3 threads=7
+RUN: dataset=segment depth=3 threads=8
+RUN: dataset=segment depth=3 threads=9
+RUN: dataset=segment depth=3 threads=10
+RUN: dataset=segment depth=3 threads=11
+RUN: dataset=segment depth=3 threads=12
+RUN: dataset=segment depth=3 threads=13
+RUN: dataset=segment depth=3 threads=14
+RUN: dataset=segment depth=3 threads=15
+RUN: dataset=segment depth=3 threads=16
+RUN: dataset=segment depth=3 threads=32
+RUN: dataset=segment depth=3 threads=60
+RUN: dataset=bidding depth=3 threads=1
+RUN: dataset=bidding depth=3 threads=2
+RUN: dataset=bidding depth=3 threads=3
+RUN: dataset=bidding depth=3 threads=4
+RUN: dataset=bidding depth=3 threads=5
+RUN: dataset=bidding depth=3 threads=6
+RUN: dataset=bidding depth=3 threads=7
+RUN: dataset=bidding depth=3 threads=8
+RUN: dataset=bidding depth=3 threads=9
+RUN: dataset=bidding depth=3 threads=10
+RUN: dataset=bidding depth=3 threads=11
+RUN: dataset=bidding depth=3 threads=12
+RUN: dataset=bidding depth=3 threads=13
+RUN: dataset=bidding depth=3 threads=14
+RUN: dataset=bidding depth=3 threads=15
+RUN: dataset=bidding depth=3 threads=16
+RUN: dataset=bidding depth=3 threads=32
+RUN: dataset=bidding depth=3 threads=60
+RUN: dataset=htru depth=3 threads=1
+RUN: dataset=htru depth=3 threads=2
+RUN: dataset=htru depth=3 threads=3
+RUN: dataset=htru depth=3 threads=4
+RUN: dataset=htru depth=3 threads=5
+RUN: dataset=htru depth=3 threads=6
+RUN: dataset=htru depth=3 threads=7
+RUN: dataset=htru depth=3 threads=8
+RUN: dataset=htru depth=3 threads=9
+RUN: dataset=htru depth=3 threads=10
+RUN: dataset=htru depth=3 threads=11
+RUN: dataset=htru depth=3 threads=12
+RUN: dataset=htru depth=3 threads=13
+RUN: dataset=htru depth=3 threads=14
+RUN: dataset=htru depth=3 threads=15
+RUN: dataset=htru depth=3 threads=16
+RUN: dataset=htru depth=3 threads=32
+RUN: dataset=htru depth=3 threads=60
+RUN: dataset=bean depth=3 threads=1
+RUN: dataset=bean depth=3 threads=2
+RUN: dataset=bean depth=3 threads=3
+RUN: dataset=bean depth=3 threads=4
+RUN: dataset=bean depth=3 threads=5
+RUN: dataset=bean depth=3 threads=6
+RUN: dataset=bean depth=3 threads=7
+RUN: dataset=bean depth=3 threads=8
+RUN: dataset=bean depth=3 threads=9
+RUN: dataset=bean depth=3 threads=10
+RUN: dataset=bean depth=3 threads=11
+RUN: dataset=bean depth=3 threads=12
+RUN: dataset=bean depth=3 threads=13
+RUN: dataset=bean depth=3 threads=14
+RUN: dataset=bean depth=3 threads=15
+RUN: dataset=bean depth=3 threads=16
+RUN: dataset=bean depth=3 threads=32
+RUN: dataset=bean depth=3 threads=60
+RUN: dataset=avila depth=3 threads=1
+RUN: dataset=avila depth=3 threads=2
+RUN: dataset=avila depth=3 threads=3
+RUN: dataset=avila depth=3 threads=4
+RUN: dataset=avila depth=3 threads=5
+RUN: dataset=avila depth=3 threads=6
+RUN: dataset=avila depth=3 threads=7
+RUN: dataset=avila depth=3 threads=8
+RUN: dataset=avila depth=3 threads=9
+RUN: dataset=avila depth=3 threads=10
+RUN: dataset=avila depth=3 threads=11
+RUN: dataset=avila depth=3 threads=12
+RUN: dataset=avila depth=3 threads=13
+RUN: dataset=avila depth=3 threads=14
+RUN: dataset=avila depth=3 threads=15
+RUN: dataset=avila depth=3 threads=16
+RUN: dataset=avila depth=3 threads=32
+RUN: dataset=avila depth=3 threads=60
+RUN: dataset=fault depth=4 threads=1
+RUN: dataset=fault depth=4 threads=2
+RUN: dataset=fault depth=4 threads=3
+RUN: dataset=fault depth=4 threads=4
+RUN: dataset=fault depth=4 threads=5
+RUN: dataset=fault depth=4 threads=6
+RUN: dataset=fault depth=4 threads=7
+RUN: dataset=fault depth=4 threads=8
+RUN: dataset=fault depth=4 threads=9
+RUN: dataset=fault depth=4 threads=10
+RUN: dataset=fault depth=4 threads=11
+RUN: dataset=fault depth=4 threads=12
+RUN: dataset=fault depth=4 threads=13
+RUN: dataset=fault depth=4 threads=14
+RUN: dataset=fault depth=4 threads=15
+RUN: dataset=fault depth=4 threads=16
+RUN: dataset=fault depth=4 threads=32
+RUN: dataset=fault depth=4 threads=60
+
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailable
+
+Traceback (most recent call last):
+  File "/home/cs406omergolcuk/c531_contree_eged/code/scripts/run_openmp_nohup.py", line 54, in <module>
+    main()
+  File "/home/cs406omergolcuk/c531_contree_eged/code/scripts/run_openmp_nohup.py", line 49, in main
+    tsec, acc, mis = run(ds, d, t)
+  File "/home/cs406omergolcuk/c531_contree_eged/code/scripts/run_openmp_nohup.py", line 33, in run
+    raise RuntimeError(f"Parse failed: {dataset}, depth={depth}, threads={threads}")
+RuntimeError: Parse failed: fault, depth=4, threads=60
