@@ -3,7 +3,7 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DATASET_DIR="$SCRIPT_DIR/../datasets"
 CON_TREE_BIN="$SCRIPT_DIR/../build/ConTree"
-OUTPUT_FILE="benchmark_openmp4-5.csv"
+OUTPUT_FILE="final_results_openmp.csv"
 
 MODE_NAME="CPU"
 
@@ -26,14 +26,18 @@ DATASETS=(
     "wilt.txt"
 )
 
-DEPTHS=(4 5)
-THREADS=(1 2 3 4 5 6 7 8 9 10 15 16 30 32 60)
+DEPTHS=(2 3 4 5)
+THREADS=(1 2 3 4 5 6 7 8 9 10 15 30 60)
 
-echo "Dataset,Depth,Mode,Threads,Time(s),Accuracy,Misclassification,TreeStructure" > "$OUTPUT_FILE"
 
 for depth in "${DEPTHS[@]}"; do
     for dataset in "${DATASETS[@]}"; do
         for threads in "${THREADS[@]}"; do
+
+            if grep -q "^$dataset,$depth,$MODE_NAME,$threads," "$OUTPUT_FILE"; then
+                echo "SKIP (already done)"
+                continue
+            fi
 
             filepath="$DATASET_DIR/$dataset"
 

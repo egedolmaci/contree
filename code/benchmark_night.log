@@ -1,0 +1,1825 @@
+nohup: ignoring input
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+Running: bean.txt depth=4 threads=60 ... DONE (600.2630 s)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+Running: fault.txt depth=4 threads=60 ... FAILED
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+libgomp: 
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+SKIP (already done)
+Running: magic.txt depth=4 threads=10 ... DONE (599.8720 s)
+Running: magic.txt depth=4 threads=15 ... DONE (599.7770 s)
+Running: magic.txt depth=4 threads=30 ... DONE (599.6310 s)
+Running: magic.txt depth=4 threads=60 ... DONE (599.5940 s)
+Running: occupancy.txt depth=4 threads=1 ... DONE (599.4260 s)
+Running: occupancy.txt depth=4 threads=2 ... DONE (386.6450 s)
+Running: occupancy.txt depth=4 threads=3 ... DONE (177.5980 s)
+Running: occupancy.txt depth=4 threads=4 ... DONE (126.6490 s)
+Running: occupancy.txt depth=4 threads=5 ... DONE (59.8840 s)
+Running: occupancy.txt depth=4 threads=6 ... DONE (61.2910 s)
+Running: occupancy.txt depth=4 threads=7 ... DONE (61.7770 s)
+Running: occupancy.txt depth=4 threads=8 ... DONE (66.8230 s)
+Running: occupancy.txt depth=4 threads=9 ... DONE (72.5950 s)
+Running: occupancy.txt depth=4 threads=10 ... DONE (66.8720 s)
+Running: occupancy.txt depth=4 threads=15 ... DONE (75.5740 s)
+Running: occupancy.txt depth=4 threads=30 ... DONE (106.9380 s)
+Running: occupancy.txt depth=4 threads=60 ... DONE (198.1710 s)
+Running: page.txt depth=4 threads=1 ... DONE (599.1050 s)
+Running: page.txt depth=4 threads=2 ... DONE (187.2910 s)
+Running: page.txt depth=4 threads=3 ... DONE (82.1520 s)
+Running: page.txt depth=4 threads=4 ... DONE (42.6660 s)
+Running: page.txt depth=4 threads=5 ... DONE (47.2050 s)
+Running: page.txt depth=4 threads=6 ... DONE (53.8240 s)
+Running: page.txt depth=4 threads=7 ... DONE (59.0770 s)
+Running: page.txt depth=4 threads=8 ... DONE (68.1200 s)
+Running: page.txt depth=4 threads=9 ... DONE (68.7050 s)
+Running: page.txt depth=4 threads=10 ... DONE (78.6200 s)
+Running: page.txt depth=4 threads=15 ... DONE (99.7970 s)
+Running: page.txt depth=4 threads=30 ... DONE (163.0550 s)
+Running: page.txt depth=4 threads=60 ... DONE (293.4380 s)
+Running: raisin.txt depth=4 threads=1 ... DONE (232.8760 s)
+Running: raisin.txt depth=4 threads=2 ... DONE (58.6680 s)
+Running: raisin.txt depth=4 threads=3 ... DONE (34.3220 s)
+Running: raisin.txt depth=4 threads=4 ... DONE (24.0520 s)
+Running: raisin.txt depth=4 threads=5 ... DONE (27.1630 s)
+Running: raisin.txt depth=4 threads=6 ... DONE (32.2640 s)
+Running: raisin.txt depth=4 threads=7 ... DONE (31.2880 s)
+Running: raisin.txt depth=4 threads=8 ... DONE (34.7670 s)
+Running: raisin.txt depth=4 threads=9 ... DONE (36.3570 s)
+Running: raisin.txt depth=4 threads=10 ... DONE (39.5290 s)
+Running: raisin.txt depth=4 threads=15 ... DONE (59.4630 s)
+Running: raisin.txt depth=4 threads=30 ... DONE (114.0800 s)
+Running: raisin.txt depth=4 threads=60 ... DONE (235.6020 s)
+Running: rice.txt depth=4 threads=1 ... DONE (599.1910 s)
+Running: rice.txt depth=4 threads=2 ... DONE (599.9620 s)
+Running: rice.txt depth=4 threads=3 ... DONE (553.2930 s)
+Running: rice.txt depth=4 threads=4 ... DONE (252.4830 s)
+Running: rice.txt depth=4 threads=5 ... DONE (264.9840 s)
+Running: rice.txt depth=4 threads=6 ... DONE (364.6640 s)
+Running: rice.txt depth=4 threads=7 ... DONE (292.8420 s)
+Running: rice.txt depth=4 threads=8 ... DONE (360.1040 s)
+Running: rice.txt depth=4 threads=9 ... DONE (400.9830 s)
+Running: rice.txt depth=4 threads=10 ... DONE (424.3130 s)
+Running: rice.txt depth=4 threads=15 ... DONE (503.7900 s)
+Running: rice.txt depth=4 threads=30 ... DONE (599.8700 s)
+Running: rice.txt depth=4 threads=60 ... DONE (600.0120 s)
+Running: room.txt depth=4 threads=1 ... DONE (296.5800 s)
+Running: room.txt depth=4 threads=2 ... DONE (52.8710 s)
+Running: room.txt depth=4 threads=3 ... DONE (19.5590 s)
+Running: room.txt depth=4 threads=4 ... DONE (10.7920 s)
+Running: room.txt depth=4 threads=5 ... DONE (9.7910 s)
+Running: room.txt depth=4 threads=6 ... DONE (10.0440 s)
+Running: room.txt depth=4 threads=7 ... DONE (11.5530 s)
+Running: room.txt depth=4 threads=8 ... DONE (13.1730 s)
+Running: room.txt depth=4 threads=9 ... DONE (15.3430 s)
+Running: room.txt depth=4 threads=10 ... DONE (17.3520 s)
+Running: room.txt depth=4 threads=15 ... DONE (26.6980 s)
+Running: room.txt depth=4 threads=30 ... DONE (50.4630 s)
+Running: room.txt depth=4 threads=60 ... DONE (66.7560 s)
+Running: segment.txt depth=4 threads=1 ... DONE (599.5500 s)
+Running: segment.txt depth=4 threads=2 ... DONE (137.3540 s)
+Running: segment.txt depth=4 threads=3 ... DONE (58.8970 s)
+Running: segment.txt depth=4 threads=4 ... DONE (38.8130 s)
+Running: segment.txt depth=4 threads=5 ... DONE (33.8840 s)
+Running: segment.txt depth=4 threads=6 ... DONE (39.9240 s)
+Running: segment.txt depth=4 threads=7 ... DONE (43.5090 s)
+Running: segment.txt depth=4 threads=8 ... DONE (45.3190 s)
+Running: segment.txt depth=4 threads=9 ... DONE (49.1230 s)
+Running: segment.txt depth=4 threads=10 ... DONE (50.0110 s)
+Running: segment.txt depth=4 threads=15 ... DONE (69.4600 s)
+Running: segment.txt depth=4 threads=30 ... DONE (111.5000 s)
+Running: segment.txt depth=4 threads=60 ... FAILED
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailable
+Running: skin.txt depth=4 threads=1 ... DONE (599.8650 s)
+Running: skin.txt depth=4 threads=2 ... DONE (362.8620 s)
+Running: skin.txt depth=4 threads=3 ... DONE (123.9230 s)
+Running: skin.txt depth=4 threads=4 ... DONE (101.3690 s)
+Running: skin.txt depth=4 threads=5 ... DONE (92.2420 s)
+Running: skin.txt depth=4 threads=6 ... DONE (92.2820 s)
+Running: skin.txt depth=4 threads=7 ... DONE (92.1780 s)
+Running: skin.txt depth=4 threads=8 ... DONE (93.7540 s)
+Running: skin.txt depth=4 threads=9 ... DONE (91.2440 s)
+Running: skin.txt depth=4 threads=10 ... DONE (91.0550 s)
+Running: skin.txt depth=4 threads=15 ... DONE (92.1210 s)
+Running: skin.txt depth=4 threads=30 ... DONE (87.9420 s)
+Running: skin.txt depth=4 threads=60 ... DONE (103.5370 s)
+Running: wilt.txt depth=4 threads=1 ... DONE (179.6460 s)
+Running: wilt.txt depth=4 threads=2 ... DONE (15.0570 s)
+Running: wilt.txt depth=4 threads=3 ... DONE (8.2070 s)
+Running: wilt.txt depth=4 threads=4 ... DONE (7.0120 s)
+Running: wilt.txt depth=4 threads=5 ... DONE (7.2010 s)
+Running: wilt.txt depth=4 threads=6 ... DONE (7.3240 s)
+Running: wilt.txt depth=4 threads=7 ... DONE (9.9930 s)
+Running: wilt.txt depth=4 threads=8 ... DONE (9.1280 s)
+Running: wilt.txt depth=4 threads=9 ... DONE (9.2040 s)
+Running: wilt.txt depth=4 threads=10 ... DONE (9.2750 s)
+Running: wilt.txt depth=4 threads=15 ... DONE (11.5260 s)
+Running: wilt.txt depth=4 threads=30 ... DONE (19.7640 s)
+Running: wilt.txt depth=4 threads=60 ... DONE (40.2090 s)
+Running: avila.txt depth=5 threads=1 ... DONE (599.0580 s)
+Running: avila.txt depth=5 threads=2 ... DONE (599.8570 s)
+Running: avila.txt depth=5 threads=3 ... DONE (599.8400 s)
+Running: avila.txt depth=5 threads=4 ... DONE (599.7920 s)
+Running: avila.txt depth=5 threads=5 ... DONE (599.7540 s)
+Running: avila.txt depth=5 threads=6 ... DONE (599.7630 s)
+Running: avila.txt depth=5 threads=7 ... DONE (599.7340 s)
+Running: avila.txt depth=5 threads=8 ... DONE (600.5240 s)
+Running: avila.txt depth=5 threads=9 ... DONE (601.1430 s)
+Running: avila.txt depth=5 threads=10 ... DONE (601.1950 s)
+Running: avila.txt depth=5 threads=15 ... DONE (601.1120 s)
+Running: avila.txt depth=5 threads=30 ... FAILED
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+libgomp: 
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+Running: avila.txt depth=5 threads=60 ... FAILED
+
+libgomp: Thread creation failed: Resource temporarily unavailable
+Running: bank.txt depth=5 threads=1 ... DONE (0.0050 s)
+Running: bank.txt depth=5 threads=2 ... DONE (0.0050 s)
+Running: bank.txt depth=5 threads=3 ... DONE (0.0090 s)
+Running: bank.txt depth=5 threads=4 ... DONE (0.0300 s)
+Running: bank.txt depth=5 threads=5 ... DONE (0.0370 s)
+Running: bank.txt depth=5 threads=6 ... DONE (0.0480 s)
+Running: bank.txt depth=5 threads=7 ... DONE (0.0530 s)
+Running: bank.txt depth=5 threads=8 ... DONE (0.0740 s)
+Running: bank.txt depth=5 threads=9 ... DONE (0.0760 s)
+Running: bank.txt depth=5 threads=10 ... DONE (0.0910 s)
+Running: bank.txt depth=5 threads=15 ... DONE (0.1200 s)
+Running: bank.txt depth=5 threads=30 ... DONE (0.2760 s)
+Running: bank.txt depth=5 threads=60 ... DONE (0.6200 s)
+Running: bean.txt depth=5 threads=1 ... DONE (599.5230 s)
+Running: bean.txt depth=5 threads=2 ... DONE (599.9800 s)
+Running: bean.txt depth=5 threads=3 ... DONE (599.8550 s)
+Running: bean.txt depth=5 threads=4 ... DONE (599.6950 s)
+Running: bean.txt depth=5 threads=5 ... DONE (599.6840 s)
+Running: bean.txt depth=5 threads=6 ... DONE (599.6860 s)
+Running: bean.txt depth=5 threads=7 ... DONE (599.7660 s)
+Running: bean.txt depth=5 threads=8 ... DONE (599.7960 s)
+Running: bean.txt depth=5 threads=9 ... DONE (599.8280 s)
+Running: bean.txt depth=5 threads=10 ... DONE (599.6750 s)
+Running: bean.txt depth=5 threads=15 ... FAILED
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: Thread creation failed: Resource temporarily unavailable
+libgomp: 
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: Thread creation failed: Resource temporarily unavailable
+Running: bean.txt depth=5 threads=30 ... FAILED
+
+libgomp: Thread creation failed: Resource temporarily unavailable
+Running: bean.txt depth=5 threads=60 ... FAILED
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+Running: bidding.txt depth=5 threads=1 ... DONE (599.4770 s)
+Running: bidding.txt depth=5 threads=2 ... DONE (244.9940 s)
+Running: bidding.txt depth=5 threads=3 ... DONE (48.5620 s)
+Running: bidding.txt depth=5 threads=4 ... DONE (62.2000 s)
+Running: bidding.txt depth=5 threads=5 ... DONE (67.2440 s)
+Running: bidding.txt depth=5 threads=6 ... DONE (76.7910 s)
+Running: bidding.txt depth=5 threads=7 ... DONE (93.8430 s)
+Running: bidding.txt depth=5 threads=8 ... DONE (45.8300 s)
+Running: bidding.txt depth=5 threads=9 ... DONE (25.7610 s)
+Running: bidding.txt depth=5 threads=10 ... DONE (27.9590 s)
+Running: bidding.txt depth=5 threads=15 ... DONE (42.8950 s)
+Running: bidding.txt depth=5 threads=30 ... FAILED
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailableThread creation failed: Resource temporarily unavailableThread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailable
+
+
+Thread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailable
+Running: bidding.txt depth=5 threads=60 ... FAILED
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+Running: eeg.txt depth=5 threads=1 ... DONE (599.8250 s)
+Running: eeg.txt depth=5 threads=2 ... DONE (599.9280 s)
+Running: eeg.txt depth=5 threads=3 ... DONE (599.8360 s)
+Running: eeg.txt depth=5 threads=4 ... DONE (599.8260 s)
+Running: eeg.txt depth=5 threads=5 ... DONE (599.8080 s)
+Running: eeg.txt depth=5 threads=6 ... DONE (599.7930 s)
+Running: eeg.txt depth=5 threads=7 ... DONE (599.7630 s)
+Running: eeg.txt depth=5 threads=8 ... DONE (599.8050 s)
+Running: eeg.txt depth=5 threads=9 ... DONE (599.8870 s)
+Running: eeg.txt depth=5 threads=10 ... DONE (599.6470 s)
+Running: eeg.txt depth=5 threads=15 ... DONE (600.2850 s)
+Running: eeg.txt depth=5 threads=30 ... FAILED
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+Running: eeg.txt depth=5 threads=60 ... FAILED
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailableThread creation failed: Resource temporarily unavailableThread creation failed: Resource temporarily unavailable
+Thread creation failed: Resource temporarily unavailableThread creation failed: Resource temporarily unavailableThread creation failed: Resource temporarily unavailable
+
+
+Thread creation failed: Resource temporarily unavailable
+
+Thread creation failed: Resource temporarily unavailable
+Running: fault.txt depth=5 threads=1 ... DONE (599.4620 s)
+Running: fault.txt depth=5 threads=2 ... DONE (599.8980 s)
+Running: fault.txt depth=5 threads=3 ... DONE (599.9120 s)
+Running: fault.txt depth=5 threads=4 ... DONE (599.9260 s)
+Running: fault.txt depth=5 threads=5 ... DONE (599.9160 s)
+Running: fault.txt depth=5 threads=6 ... DONE (599.9400 s)
+Running: fault.txt depth=5 threads=7 ... DONE (599.9080 s)
+Running: fault.txt depth=5 threads=8 ... DONE (600.0560 s)
+Running: fault.txt depth=5 threads=9 ... DONE (599.7380 s)
+Running: fault.txt depth=5 threads=10 ... DONE (599.9160 s)
+Running: fault.txt depth=5 threads=15 ... DONE (600.0590 s)
+Running: fault.txt depth=5 threads=30 ... FAILED
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+Running: fault.txt depth=5 threads=60 ... FAILED
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+
+libgomp: 
+Running: htru.txt depth=5 threads=1 ... DONE (599.5960 s)
+Running: htru.txt depth=5 threads=2 ... DONE (599.9380 s)
+Running: htru.txt depth=5 threads=3 ... DONE (599.9060 s)
+Running: htru.txt depth=5 threads=4 ... DONE (599.9380 s)
+Running: htru.txt depth=5 threads=5 ... DONE (599.6800 s)
+Running: htru.txt depth=5 threads=6 ... DONE (599.8420 s)
+Running: htru.txt depth=5 threads=7 ... DONE (599.8380 s)
+Running: htru.txt depth=5 threads=8 ... DONE (599.8680 s)
+Running: htru.txt depth=5 threads=9 ... DONE (599.8630 s)
+Running: htru.txt depth=5 threads=10 ... DONE (599.8150 s)
+Running: htru.txt depth=5 threads=15 ... DONE (600.0350 s)
+Running: htru.txt depth=5 threads=30 ... FAILED
+
+libgomp: Thread creation failed: Resource temporarily unavailable
+Running: htru.txt depth=5 threads=60 ... FAILED
+
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: 
+libgomp: Thread creation failed: Resource temporarily unavailable
+Running: magic.txt depth=5 threads=1 ... DONE (599.0950 s)
+Running: magic.txt depth=5 threads=2 ... DONE (599.8110 s)
+Running: magic.txt depth=5 threads=3 ... DONE (600.0290 s)
+Running: magic.txt depth=5 threads=4 ... DONE (599.5680 s)
+Running: magic.txt depth=5 threads=5 ... DONE (599.8100 s)
+Running: magic.txt depth=5 threads=6 ... DONE (599.7660 s)
+Running: magic.txt depth=5 threads=7 ... DONE (599.8060 s)
+Running: magic.txt depth=5 threads=8 ... DONE (599.8190 s)
+Running: magic.txt depth=5 threads=9 ... DONE (599.7050 s)
+Running: magic.txt depth=5 threads=10 ... DONE (599.7750 s)
+Running: magic.txt depth=5 threads=15 ... 
